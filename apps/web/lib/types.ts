@@ -23,8 +23,8 @@ export type Settings = {
   aProposImage?: Img
   valeurs?: {titre: string; description?: string}[]
   chiffresCles?: {valeur: string; libelle: string}[]
-  telephone?: string
-  whatsapp?: string
+  telephone?: string[]
+  whatsapp?: string[]
   email?: string
   adresse?: string
   ville?: string

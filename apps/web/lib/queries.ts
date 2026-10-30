@@ -18,7 +18,7 @@ const REALISATION_CARD = `{
 
 // ---------- Global ----------
 export const siteSettingsQuery = defineQuery(`
-  *[_type == "siteSettings" && _id == "siteSettings"][0]{
+  *[_type == "siteSettings" && _type == "siteSettings"][0]{
     nomEntreprise, slogan, presentation, logo${IMAGE},
     aProposTitre, aProposTexte, aProposImage${IMAGE}, valeurs, chiffresCles,
     telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,

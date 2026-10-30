@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 290 280"
+     role="img" aria-labelledby="title">
+  <title id="title">Zenith Tech</title>
+  <path fill="#00B91B" d="M 276,121 L 268,105 L 228,66 L 226,66 L 225,63 L 222,62 L 191,30 L 175,18 L 164,17 L 151,22 L 25,149 L 21,157 L 19,170 L 23,179 L 27,183 L 27,186 L 39,194 L 46,196 L 60,196 L 64,193 L 68,193 L 166,96 L 174,101 L 224,151 L 233,155 L 249,156 L 258,154 L 266,149 L 276,131 Z"/>
+  <path fill="#F0F000" d="M 197,158 L 184,150 L 164,149 L 148,153 L 103,199 L 83,215 L 78,227 L 78,242 L 84,255 L 95,264 L 110,268 L 127,263 L 208,181 L 208,170 Z"/>
+</svg>
