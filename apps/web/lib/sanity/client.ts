@@ -10,5 +10,9 @@ export const client = createClient({
   projectId: projectId || 'missing',
   dataset,
   apiVersion: '2026-05-15',
+<<<<<<< HEAD
   useCdn: process.env.NODE_ENV === 'production',
+=======
+  useCdn: false, // false pour avoir les données à jour, true pour la version cache (plus rapide)
+>>>>>>> 35689935ed24a2d6c07ae349b229ff95587b7cb3
 })

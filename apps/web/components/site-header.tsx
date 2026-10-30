@@ -14,6 +14,8 @@ const panel =
 
 export async function SiteHeader() {
   const [menu, settings] = await Promise.all([getMenu(), getSettings()])
+  console.log('menu', menu)
+  console.log('settings', settings)
   const catalogue = menu.filter((m) => m.aCatalogue)
 
   return (

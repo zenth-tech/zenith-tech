@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+schemaTypes
+
 # Compiled Sanity Studio
 /dist
 
