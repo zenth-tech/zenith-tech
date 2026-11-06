@@ -4,6 +4,7 @@ import {notFound} from 'next/navigation'
 import {getMetier, getSettings} from '@/lib/data'
 import {seoMeta} from '@/lib/seo'
 import {ButtonLink, Container, PageHeader} from '@/components/ui'
+import {BorderButton} from '@/components/border-button'
 import {SanityImage} from '@/components/sanity-image'
 import {CtaBand} from '@/components/cta-band'
 
@@ -26,7 +27,7 @@ export default async function ServicePage({params}: Props) {
         intro={m.accroche}
         breadcrumb={[{label: 'Accueil', href: '/'}, {label: 'Services', href: '/services'}, {label: m.title}]}
       >
-        <ButtonLink href={`/devis?sujet=${encodeURIComponent(m.title)}`}>Demander un devis</ButtonLink>
+        <BorderButton href={`/devis?sujet=${encodeURIComponent(m.title)}`}>Demander un devis</BorderButton>
         {m.aCatalogue && <ButtonLink href={`/produits/${m.slug}`} variant="outline">Voir le catalogue</ButtonLink>}
       </PageHeader>
 

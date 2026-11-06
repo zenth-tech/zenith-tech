@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import {useQuote} from '@/lib/quote'
+import {BorderButton} from './border-button'
 
 export function QuoteCount({className = ''}: {className?: string}) {
   const {count, ready} = useQuote()
@@ -15,12 +15,9 @@ export function QuoteCount({className = ''}: {className?: string}) {
 
 export function QuoteLink({className = 'inline-flex'}: {className?: string}) {
   return (
-    <Link
-      href="/devis"
-      className={`${className} min-h-10 items-center gap-2 rounded-md bg-solar px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-[#f7b55c]`}
-    >
+    <BorderButton href="/devis" size="sm" className={className}>
       Demander un devis
       <QuoteCount />
-    </Link>
+    </BorderButton>
   )
 }

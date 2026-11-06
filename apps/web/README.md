@@ -40,3 +40,9 @@ Sans cette variable, la demande est seulement écrite dans les logs du serveur :
 - Ajouter une vraie protection anti-spam (Cloudflare Turnstile) et une limitation de débit partagée (Redis/Upstash) : celle de `app/api/devis` est en mémoire.
 - Ne publier un client référence que s'il a donné son accord (`afficherSurSite`).
 - Optionnel : `generateStaticParams` pour pré-générer fiches produits et réalisations, et `sanity typegen` pour remplacer `lib/types.ts`.
+
+## Animations (GSAP)
+- `components/border-button.tsx` : bouton « Demander un devis » avec bordure animée (trait de lumière en boucle, bordure complète au survol).
+- `components/hero.tsx` : animation d'ouverture de l'accueil (mots du titre, texte, boutons, cadre de viseur).
+- États de départ dans `app/globals.css` (section « Animation d'ouverture ») : actifs seulement avec JavaScript et sans « réduire les animations ».
+- Le texte reste présent dans le HTML du serveur, donc lisible par Google et sans JavaScript.

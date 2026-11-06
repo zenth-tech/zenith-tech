@@ -4,12 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --font-bricolage: var(--font-bricolage);
-  --font-sans: var(--font-sans);
-  --font-instrument: var(--font-instrument);
-}
-
 @theme inline {
   --color-ink: #10243b;
   --color-steel: #3e5873;
@@ -72,10 +66,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -89,11 +80,7 @@ h4 {
 /* Fond des images manquantes : trame fine, discrète */
 .placeholder-bg {
   background-color: var(--color-mist);
-  background-image: repeating-linear-gradient(
-    135deg,
-    transparent 0 14px,
-    rgb(16 36 59 / 0.05) 14px 15px
-  );
+  background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgb(16 36 59 / 0.05) 14px 15px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -101,6 +88,25 @@ h4 {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* Animation d'ouverture de l'accueil (components/hero.tsx).
+   États de départ appliqués seulement si JavaScript est actif et si les animations sont autorisées.
+   On masque uniquement avec l'opacité (jamais avec transform : GSAP gère le déplacement lui-même).
+   Sécurité : au bout de 4 s tout redevient visible, même si le script n'a pas démarré. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-hero] [data-hero-word],
+  [data-hero] [data-hero-fade],
+  [data-hero] [data-hero-image],
+  [data-hero] [data-vf-label],
+  [data-hero] [data-vf-corner] {
+    opacity: 0;
+    animation: hero-failsafe 0s linear 4s forwards;
+  }
+}
+
+@keyframes hero-failsafe {
+  to { opacity: 1; }
 }
 
 :root {

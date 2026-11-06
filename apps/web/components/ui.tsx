@@ -89,11 +89,11 @@ export function Viewfinder({children, className = ''}: {children: ReactNode; cla
   return (
     <div className={`relative ${className}`}>
       {children}
-      <span aria-hidden className={`${corner} left-3 top-3 border-l-2 border-t-2`} />
-      <span aria-hidden className={`${corner} right-3 top-3 border-r-2 border-t-2`} />
-      <span aria-hidden className={`${corner} bottom-3 left-3 border-b-2 border-l-2`} />
-      <span aria-hidden className={`${corner} bottom-3 right-3 border-b-2 border-r-2`} />
-      <span className="pointer-events-none absolute left-12 top-[1.15rem] flex items-center gap-2 rounded bg-ink/70 px-2 py-1 text-xs font-medium text-white">
+      <span aria-hidden data-vf-corner className={`${corner} left-3 top-3 border-l-2 border-t-2`} />
+      <span aria-hidden data-vf-corner className={`${corner} right-3 top-3 border-r-2 border-t-2`} />
+      <span aria-hidden data-vf-corner className={`${corner} bottom-3 left-3 border-b-2 border-l-2`} />
+      <span aria-hidden data-vf-corner className={`${corner} bottom-3 right-3 border-b-2 border-r-2`} />
+      <span data-vf-label className="pointer-events-none absolute left-12 top-[1.15rem] flex items-center gap-2 rounded bg-ink/70 px-2 py-1 text-xs font-medium text-white">
         <span aria-hidden className="h-2 w-2 rounded-full bg-red-500 motion-safe:animate-pulse" />
         Bamako
       </span>

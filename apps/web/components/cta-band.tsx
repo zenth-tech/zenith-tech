@@ -1,6 +1,7 @@
 import type {Settings} from '@/lib/types'
 import {telHref, whatsappHref} from '@/lib/site'
 import {ButtonLink, Container} from './ui'
+import {BorderButton} from './border-button'
 
 export function CtaBand({settings, title = 'Parlons de votre projet', text, subject}: {
   settings: Settings; title?: string; text?: string; subject?: string
@@ -17,7 +18,7 @@ export function CtaBand({settings, title = 'Parlons de votre projet', text, subj
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <ButtonLink href={subject ? `/devis?sujet=${encodeURIComponent(subject)}` : '/devis'}>Demander un devis</ButtonLink>
+          <BorderButton href={subject ? `/devis?sujet=${encodeURIComponent(subject)}` : '/devis'}>Demander un devis</BorderButton>
           {wa && <ButtonLink href={wa} variant="outline-light" external>WhatsApp</ButtonLink>}
           {tel && <ButtonLink href={tel} variant="outline-light">Appeler</ButtonLink>}
         </div>

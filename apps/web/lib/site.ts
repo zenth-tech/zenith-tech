@@ -4,11 +4,11 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3
 
 export const digits = (s?: string) => (s ?? '').replace(/\D/g, '')
 
-export const telHref = (s?: Settings) => (s?.telephone ? `tel:+${digits(s.telephone[0])}` : undefined)
+export const telHref = (s?: Settings) => (s?.telephone?.length ? `tel:+${digits(s.telephone?.[0])}` : undefined)
 
 export const whatsappHref = (s?: Settings, message?: string) =>
   s?.whatsapp
-    ? `https://wa.me/${digits(s.whatsapp[0])}${message ? `?text=${encodeURIComponent(message)}` : ''}`
+    ? `https://wa.me/${digits(s.whatsapp?.[0])}${message ? `?text=${encodeURIComponent(message)}` : ''}`
     : undefined
 
 export const mailHref = (s?: Settings, subject?: string) =>

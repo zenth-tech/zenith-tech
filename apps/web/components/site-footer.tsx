@@ -36,7 +36,7 @@ export async function SiteFooter() {
           <p className="mb-3 font-display font-bold">Contact</p>
           <ul className={col}>
             {s.adresse && <li>{s.adresse}</li>}
-            {s.telephone && <li><a className={a} href={telHref(s)}>{s.telephone}</a></li>}
+            {s.telephone && <li><a className={a} href={telHref(s)}>{s.telephone?.[0]}</a></li>}
             {s.whatsapp && <li><a className={a} href={whatsappHref(s)} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>}
             {s.email && <li><a className={a} href={mailHref(s)}>{s.email}</a></li>}
             {s.horaires && <li>{s.horaires}</li>}

@@ -1,0 +1,5 @@
+﻿sku;nom;categorie;marque;accroche;points_forts;caracteristiques;description;image1;image2;image3;image4;fiche_technique;video_url;lien_fabricant;mettre_en_avant
+EXEMPLE-001;Exemple : terminal facial autonome;terminaux-biometriques;Dahua;Une phrase qui dit ce que le client y gagne (160 caractères max).;Point fort 1|Point fort 2|Point fort 3;Mode d’identification=Visage + carte|Écran=7 pouces|Alimentation=PoE|Protection=IP65|Gestion de présence=Oui|Ports=RS-485, Wiegand, entrée alarme;"Premier paragraphe de la description, avec vos mots.
+
+Deuxième paragraphe : où et comment ce produit s’utilise.";exemple-1.jpg;exemple-2.jpg;;;exemple-fiche.pdf;https://www.youtube.com/watch?v=XXXXXXXXXXX;https://www.dahuasecurity.com/;non
+EXEMPLE-002;Exemple : ventouse électromagnétique 280 kg;ventouses-serrures;Dahua;;Verrouillage silencieux|Retour d’état de la porte;Force de maintien=280 kg|Tension=12 V|Montage=Applique|Détection d’état=Oui;;exemple-3.jpg;;;;;;;non
