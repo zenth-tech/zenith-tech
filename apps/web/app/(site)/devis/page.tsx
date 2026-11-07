@@ -16,7 +16,7 @@ export default async function DevisPage({searchParams}: {searchParams: Promise<{
     <>
       <PageHeader title="Demander un devis" intro="Indiquez vos produits et votre projet. Nous répondons par le canal que vous choisissez." breadcrumb={[{label: 'Accueil', href: '/'}, {label: 'Devis'}]} />
       <Container className="py-12">
-        <QuoteForm defaultSubject={sujet?.slice(0, 120)} whatsapp={digits(settings.whatsapp) || undefined} companyName={settings.nomEntreprise} />
+        <QuoteForm defaultSubject={sujet?.slice(0, 120)} whatsapp={digits(settings.whatsapp?.[0]) || undefined} companyName={settings.nomEntreprise} />
       </Container>
     </>
   )

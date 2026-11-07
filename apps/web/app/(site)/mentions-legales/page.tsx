@@ -17,7 +17,7 @@ export default async function LegalPage() {
           {s.rccm && <p>RCCM : {s.rccm}</p>}
           {s.nina && <p>NINA : {s.nina}</p>}
           {s.email && <p>Email : {s.email}</p>}
-          {s.telephone && <p>Téléphone : {s.telephone}</p>}
+          {s.telephone && <p>Téléphone : {s.telephone.join(' / ')}</p>}
         </section>
         <section>
           <h2 className="mb-2 text-xl font-bold text-ink">Hébergement</h2>
