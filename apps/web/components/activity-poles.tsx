@@ -16,6 +16,8 @@ export function ActivityPoles({metiers}: {metiers: Metier[]}) {
 
 	useGSAP(() => {
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+		// Si le composant est imbriqué dans ScrollReveal, ScrollReveal gère l'animation de cascade
+		if (root.current?.closest('[data-scroll-reveal]')) return
 
 		const cards = gsap.utils.toArray<HTMLElement>('[data-activity-card]')
 		const observer = new IntersectionObserver((entries) => {
@@ -43,7 +45,7 @@ export function ActivityPoles({metiers}: {metiers: Metier[]}) {
 	return (
 		<section ref={root} className="bg-white py-14 sm:py-20">
 			<Container>
-				<div className="mb-8 max-w-2xl sm:mb-10">
+				<div data-reveal-header className="mb-8 max-w-2xl sm:mb-10">
 					<p className="text-sm font-bold uppercase tracking-[0.16em] text-solar-deep">Nos pôles d’activité</p>
 					<h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">Six domaines, un seul interlocuteur</h2>
 					<p className="mt-3 text-steel">Du projet à la maintenance, une même équipe s’occupe de vos installations.</p>

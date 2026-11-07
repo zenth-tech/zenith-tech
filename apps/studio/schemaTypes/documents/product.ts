@@ -13,7 +13,13 @@ export const product = defineType({
     {name: 'seo', title: 'SEO'},
   ],
   fields: [
-    defineField({name: 'name', title: 'Nom du produit', type: 'string', group: 'general', validation: (Rule) => Rule.required()}),
+    defineField({
+      name: 'name',
+      title: 'Nom du produit',
+      type: 'string',
+      group: 'general',
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({
       name: 'slug',
       title: 'Slug (URL)',
@@ -27,14 +33,18 @@ export const product = defineType({
       title: 'SKU (référence interne)',
       type: 'string',
       group: 'general',
-      description: 'Identifiant unique, aussi utilisé pour faire le lien avec l’ERP. Ne le changez jamais après création.',
+      description:
+        'Identifiant unique, aussi utilisé pour faire le lien avec l’ERP. Ne le changez jamais après création.',
       validation: (Rule) =>
         Rule.required().custom(async (sku, context) => {
           if (!sku) return true
           const id = (context.document?._id ?? '').replace(/^drafts\./, '')
           const count: number = await context
             .getClient({apiVersion: API_VERSION})
-            .fetch(`count(*[_type == "product" && sku == $sku && !(_id in [$id, "drafts." + $id])])`, {sku, id})
+            .fetch(
+              `count(*[_type == "product" && sku == $sku && !(_id in [$id, "drafts." + $id])])`,
+              {sku, id},
+            )
           return count === 0 ? true : 'Ce SKU existe déjà'
         }),
     }),
@@ -46,7 +56,13 @@ export const product = defineType({
       to: [{type: 'categorie'}],
       validation: (Rule) => Rule.required(),
     }),
-    defineField({name: 'marque', title: 'Marque', type: 'string', group: 'general', description: 'Ex : Hikvision, Dahua'}),
+    defineField({
+      name: 'marque',
+      title: 'Marque',
+      type: 'string',
+      group: 'general',
+      description: 'Ex : Hikvision, Dahua',
+    }),
     defineField({
       name: 'mettreEnAvant',
       title: 'Mettre en avant sur l’accueil',
@@ -76,7 +92,8 @@ export const product = defineType({
       title: 'Description',
       type: 'array',
       group: 'contenu',
-      description: 'Rédigez avec vos propres mots (ne copiez pas le site du fabricant : mauvais pour le SEO).',
+      description:
+        'Rédigez avec vos propres mots (ne copiez pas le site du fabricant : mauvais pour le SEO).',
       of: [
         defineArrayMember({
           type: 'block',
