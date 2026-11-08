@@ -5,12 +5,7 @@ export const categorie = defineType({
   title: 'Catégorie',
   type: 'document',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Nom',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
+    defineField({name: 'title', title: 'Nom', type: 'string', validation: (Rule) => Rule.required()}),
     defineField({
       name: 'slug',
       title: 'Slug (URL)',
@@ -45,9 +40,7 @@ export const categorie = defineType({
     }),
     defineField({name: 'seo', title: 'SEO', type: 'seo'}),
   ],
-  orderings: [
-    {title: 'Ordre d’affichage', name: 'ordreAsc', by: [{field: 'ordre', direction: 'asc'}]},
-  ],
+  orderings: [{title: 'Ordre d’affichage', name: 'ordreAsc', by: [{field: 'ordre', direction: 'asc'}]}],
   preview: {
     select: {title: 'title', metier: 'metier.title', media: 'image'},
     prepare: ({title, metier, media}) => ({title, subtitle: metier, media}),

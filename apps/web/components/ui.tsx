@@ -69,7 +69,7 @@ export function Section({
     <section className={`py-14 sm:py-20 ${className}`}>
       <Container>
         {(title || action) && (
-          <div data-reveal-header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               {title && <h2 className="max-w-2xl text-3xl font-bold leading-tight sm:text-4xl">{title}</h2>}
               {intro && <p className="mt-3 max-w-2xl text-steel">{intro}</p>}
