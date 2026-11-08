@@ -21,8 +21,8 @@ export const mockSettings: Settings = {
     {valeur: '5+', libelle: 'ans d’expérience'},
     {valeur: '6', libelle: 'pôles d’activité'},
   ],
-  telephone: ['+223 00 00 00 00'],
-  whatsapp: ['22300000000'],
+  telephone: '+223 00 00 00 00',
+  whatsapp: '22300000000',
   email: 'contact@exemple.ml',
   adresse: 'Avenue de Kalaban Coro, Golf, Bamako',
   ville: 'Bamako',
@@ -37,7 +37,7 @@ const metiers: Metier[] = [
     title: 'Vidéosurveillance', slug: 'videosurveillance', aCatalogue: true,
     accroche: 'Caméras IP, enregistreurs et supervision à distance.',
     description: 'Étude du site, pose des caméras, configuration de l’enregistrement et de la consultation à distance.',
-    categories: [{title: 'Caméras IP', slug: 'cameras-ip', image: null}, {title: 'Enregistreurs', slug: 'enregistreurs', image: null}],
+    categories: [{title: 'Caméras IP', slug: 'cameras-ip'}, {title: 'Enregistreurs', slug: 'enregistreurs'}],
     prestations: [
       {titre: 'Étude et plan d’implantation', description: 'Visite du site et choix des emplacements.'},
       {titre: 'Installation et configuration', description: 'Pose, câblage et accès à distance sur téléphone.'},
@@ -46,13 +46,13 @@ const metiers: Metier[] = [
   {
     title: 'Contrôle d’accès et anti-intrusion', slug: 'controle-acces', aCatalogue: true,
     accroche: 'Badges, digicodes, alarmes et portiers vidéo.',
-    categories: [{title: 'Contrôle d’accès', slug: 'controle-acces-lecteurs', image: null}],
+    categories: [{title: 'Contrôle d’accès', slug: 'controle-acces-lecteurs'}],
     prestations: [{titre: 'Portier vidéo'}, {titre: 'Système anti-intrusion'}],
   },
   {
     title: 'Énergie solaire', slug: 'photovoltaique', aCatalogue: true,
     accroche: 'Panneaux, onduleurs et stockage pour votre site.',
-    categories: [{title: 'Onduleurs', slug: 'onduleurs', image: null}, {title: 'Panneaux solaires', slug: 'panneaux', image: null}],
+    categories: [{title: 'Onduleurs', slug: 'onduleurs'}, {title: 'Panneaux solaires', slug: 'panneaux'}],
     prestations: [{titre: 'Étude et dimensionnement'}, {titre: 'Installation et mise en service'}],
   },
   {

@@ -31,7 +31,7 @@ export default async function ContactPage() {
             <div className="rounded-lg border border-ink/10 bg-white p-5">
               <h2 className="text-lg font-bold">Téléphone</h2>
               <p className="mt-1 text-steel">{s.horaires}</p>
-              <ButtonLink href={tel} variant="dark" className="mt-4">{s.telephone?.[0]}</ButtonLink>
+              <ButtonLink href={tel} variant="dark" className="mt-4">{s.telephone}</ButtonLink>
             </div>
           )}
           {mail && (

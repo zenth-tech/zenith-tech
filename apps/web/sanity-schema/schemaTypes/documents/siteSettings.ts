@@ -73,23 +73,18 @@ export const siteSettings = defineType({
     defineField({
       name: 'telephone',
       title: 'Téléphone',
-      type: 'array',
+      type: 'string',
       group: 'contact',
       description: 'Affiché tel quel. Ex : +223 XX XX XX XX',
-      of: [defineArrayMember({type: 'string'})],
     }),
     defineField({
       name: 'whatsapp',
       title: 'Numéro WhatsApp',
-      type: 'array',
+      type: 'string',
       group: 'contact',
       description: 'Format international, chiffres uniquement, sans + ni espaces. Ex : 223XXXXXXXX',
-      of: [
-        defineArrayMember({
-          type: 'string',
-          validation: (Rule) => Rule.regex(/^\d{8,15}$/, {name: 'whatsapp'}).error('Chiffres uniquement, 8 à 15 caractères'),
-        }),
-      ],
+      validation: (Rule) =>
+        Rule.regex(/^\d{8,15}$/, {name: 'whatsapp'}).error('Chiffres uniquement, 8 à 15 caractères'),
     }),
     defineField({name: 'email', title: 'Email de contact', type: 'string', group: 'contact', validation: (Rule) => Rule.email()}),
     defineField({name: 'adresse', title: 'Adresse', type: 'text', rows: 2, group: 'contact'}),
