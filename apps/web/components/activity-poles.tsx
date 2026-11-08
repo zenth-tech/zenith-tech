@@ -19,15 +19,14 @@ export function ActivityPoles({metiers}: {metiers: Metier[]}) {
 
 		const cards = gsap.utils.toArray<HTMLElement>('[data-activity-card]')
 		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (!entry.isIntersecting) return
-				gsap.fromTo(
-					entry.target,
-					{y: 20, autoAlpha: 0},
-					{y: 0, autoAlpha: 1, duration: 0.65, ease: 'power2.out', overwrite: true},
-				)
-				observer.unobserve(entry.target)
-			})
+			const visible = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target)
+			if (visible.length === 0) return
+			gsap.fromTo(
+				visible,
+				{y: 20, autoAlpha: 0},
+				{y: 0, autoAlpha: 1, duration: 0.65, stagger: 0.12, ease: 'power2.out', overwrite: true},
+			)
+			visible.forEach((card) => observer.unobserve(card))
 		}, {threshold: 0.15})
 
 		cards.forEach((card) => observer.observe(card))

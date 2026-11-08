@@ -1,0 +1,31 @@
+/* Bordure gradient avec mask (impossible en Tailwind pur) */
+.quote-btn-border {
+  padding: 2px;
+  background: linear-gradient(135deg, #facc15 0%, #a3e635 50%, #facc15 100%);
+  background-size: 200% 200%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: quote-border-shift 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes quote-border-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Points lumineux du halo */
+.glow-dot-yellow {
+  background: radial-gradient(circle, #facc15 0%, transparent 70%);
+}
+
+.glow-dot-green {
+  background: radial-gradient(circle, #a3e635 0%, transparent 70%);
+}
