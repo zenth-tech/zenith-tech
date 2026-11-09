@@ -4,6 +4,9 @@ import { getMetiers, getSettings } from "@/lib/data";
 import { Container, PageHeader } from "@/components/ui";
 import { CtaBand } from "@/components/cta-band";
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://zenith-tech-swart.vercel.app";
+
 export const metadata: Metadata = {
   title: "Nos services",
   description:
@@ -12,7 +15,7 @@ export const metadata: Metadata = {
     title: "Nos services",
     description:
       "Sécurité électronique, énergie solaire, réseaux, cybersécurité et systèmes d’information : tous nos domaines d’intervention.",
-    url: "https://zenith-tech.com/services",
+    url: `${SITE_URL}/services`,
     siteName: "Zenith-Tech",
     images: [
       {

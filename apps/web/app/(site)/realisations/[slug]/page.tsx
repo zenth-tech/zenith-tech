@@ -6,13 +6,8 @@ import { Breadcrumb, Container, Section } from "@/components/ui";
 import { SanityImage } from "@/components/sanity-image";
 import { RichText } from "@/components/rich-text";
 import { VideoEmbed } from "@/components/video-embed";
-import { ProductCard } from "@/components/cards";
 import { CtaBand } from "@/components/cta-band";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { ProductCard } from "@/components/product-card";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,6 +23,7 @@ export default async function RealisationPage({ params }: Props) {
     getSettings(),
   ]);
   if (!r) notFound();
+  console.log("realisations", r.seo);
 
   const images = (r.images ?? []).filter((i) => i?.asset);
   const blocks = [

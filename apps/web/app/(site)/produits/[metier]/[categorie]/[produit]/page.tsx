@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProduct, getSettings } from "@/lib/data";
 import { seoMeta } from "@/lib/seo";
-import { SITE_URL, telHref, whatsappHref } from "@/lib/site";
+import { productHref, SITE_URL, telHref, whatsappHref } from "@/lib/site";
 import { Breadcrumb, ButtonLink, Container, Section } from "@/components/ui";
 import { SanityImage } from "@/components/sanity-image";
 import { RichText } from "@/components/rich-text";
 import { VideoEmbed } from "@/components/video-embed";
 import { AddToQuoteButton } from "@/components/add-to-quote";
-import { ProductCard, productHref, RealisationCard } from "@/components/cards";
+import { RealisationCard } from "@/components/realisation-card";
+import { ProductCard } from "@/components/product-card";
 
 type Props = {
   params: Promise<{ metier: string; categorie: string; produit: string }>;

@@ -6,8 +6,8 @@ import { applyFilters, buildFacets } from "@/lib/facets";
 import { seoMeta } from "@/lib/seo";
 import { Container, PageHeader } from "@/components/ui";
 import { Filters } from "@/components/filters";
-import { ProductCard } from "@/components/cards";
 import { CtaBand } from "@/components/cta-band";
+import { ProductCard } from "@/components/product-card";
 
 type Props = {
   params: Promise<{ metier: string; categorie: string }>;

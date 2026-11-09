@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { getRealisations, getSettings } from "@/lib/data";
 import { Container, PageHeader } from "@/components/ui";
-import { RealisationCard } from "@/components/cards";
+import { RealisationCard } from "@/components/realisation-card";
 import { CtaBand } from "@/components/cta-band";
 import { RealisationCard as R } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Nos réalisations",
   description:
-    "Chantiers de vidéosurveillance, d’énergie solaire et de sécurité réalisés à Bamako et au Mali.",
+    "Chantiers de vidéosurveillance, d'énergie solaire, réseau informatique et de sécurité réalisés à Bamako et au Mali.",
 };
 
 export default async function RealisationsPage() {

@@ -10,7 +10,7 @@ import { ButtonLink, Section } from "@/components/ui";
 import { Hero } from "@/components/hero";
 import { SanityImage } from "@/components/sanity-image";
 import { ActivityPoles } from "@/components/activity-poles";
-import { ProductCard, RealisationCard } from "@/components/cards";
+import { ProductCard } from "@/components/product-card";
 import { CtaBand } from "@/components/cta-band";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import {
@@ -19,6 +19,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { RealisationCard as RC } from "@/lib/types";
+import { RealisationCard } from "@/components/realisation-card";
 
 export default async function HomePage() {
   const [settings, products, realisations, clients] = await Promise.all([

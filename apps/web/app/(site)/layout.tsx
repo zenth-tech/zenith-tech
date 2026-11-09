@@ -16,6 +16,8 @@ export default async function SiteLayout({
     "@type": "LocalBusiness",
     name: s?.nomEntreprise ?? "ZENITH TECH-SARL",
     url: SITE_URL,
+    "@id": SITE_URL,
+    image: "",
     telephone: s?.telephone?.length
       ? `+${digits(s?.telephone?.[0])}`
       : undefined,
@@ -27,6 +29,19 @@ export default async function SiteLayout({
       addressCountry: "ML",
     },
     areaServed: s?.zoneCouverture ?? "Mali",
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      opens: "08:00",
+      closes: "16:00",
+    },
   };
   return (
     <>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getSettings } from "@/lib/data";
-import { mailHref, telHref, whatsappHref } from "@/lib/site";
+import { mailHref, oneTelHref, telHref, whatsappHref } from "@/lib/site";
 import { ButtonLink, Container, PageHeader } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -46,9 +46,18 @@ export default async function ContactPage() {
             <div className="rounded-lg border border-ink/10 bg-white p-5">
               <h2 className="text-lg font-bold">Téléphone</h2>
               <p className="mt-1 text-steel">{s?.horaires}</p>
-              <ButtonLink href={tel} variant="dark" className="mt-4">
-                {s?.telephone}
-              </ButtonLink>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {s?.telephone?.map((t) => (
+                  <ButtonLink
+                    key={t}
+                    href={oneTelHref(t)}
+                    variant="dark"
+                    className="mt-4"
+                  >
+                    {t}
+                  </ButtonLink>
+                ))}
+              </div>
             </div>
           )}
           {mail && (

@@ -25,7 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       s?.presentation ??
       "Vidéosurveillance, contrôle d'accès, énergie solaire, réseaux et cybersécurité à Bamako et partout au Mali.",
-    openGraph: { type: "website", locale: "fr_ML", siteName: name },
+    openGraph: {
+      type: "website",
+      locale: "fr_ML",
+      siteName: name,
+      description: s?.presentation!,
+    },
   };
 }
 
