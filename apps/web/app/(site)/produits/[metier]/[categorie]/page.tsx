@@ -88,7 +88,7 @@ export default async function CategoriePage({ params, searchParams }: Props) {
           {shown.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {shown.map((p) => (
-                <ProductCard key={p._id} product={p} />
+                <ProductCard className="" key={p._id} product={p} />
               ))}
             </div>
           ) : (

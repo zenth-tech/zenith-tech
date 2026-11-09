@@ -8,8 +8,15 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { productHref } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-export function ProductCard({ product: p }: { product: P }) {
+export function ProductCard({
+  product: p,
+  className,
+}: {
+  product: P;
+  className?: string;
+}) {
   const root = useRef<HTMLElement>(null);
   const specs = (p.caracteristiques ?? [])
     .filter((c) => c.cle && c.valeur)
@@ -31,34 +38,40 @@ export function ProductCard({ product: p }: { product: P }) {
   return (
     <article
       ref={root}
-      className="relative flex h-70 md:h-100 flex-col overflow-hidden rounded-lg border border-ink/10 bg-white shadow-md"
+      className={cn(
+        className,
+        "relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-lg border border-ink/10 bg-white shadow-md",
+      )}
       onPointerEnter={(event) => animateImage(event.currentTarget, 1.06)}
       onPointerLeave={(event) => animateImage(event.currentTarget, 1)}
       onFocus={(event) => animateImage(event.currentTarget, 1.06)}
       onBlur={(event) => animateImage(event.currentTarget, 1)}
     >
-      {" "}
-      <div data-product-image className="h-full w-full">
+      <div
+        data-product-image
+        className="h-28 w-full shrink-0 overflow-hidden sm:h-32"
+      >
         <SanityImage
           image={p.image}
           fallbackAlt={p.name ?? undefined}
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          ratio="h-full"
+          sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
         />
       </div>
-      <div className="flex flex-1 flex-col p-4">
-        {p.marque && <p className="text-sm text-steel">{p.marque}</p>}
-        <h3 className="text-lg font-bold leading-snug">
+      <div className="flex flex-1 flex-col p-3">
+        {p.marque && <p className="text-xs text-steel">{p.marque}</p>}
+        <h3 className="text-base font-bold leading-snug">
           <Link href={productHref(p)} className="after:absolute after:inset-0">
             {p.name}
           </Link>
         </h3>
         {p.accroche && (
-          <p className="mt-1.5 text-xs md:text-sm leading-relaxed text-steel">
+          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-steel">
             {p.accroche}
           </p>
         )}
         {specs.length > 0 && (
-          <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+          <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0 text-xs">
             {specs.map((c) => (
               <div key={c.cle} className="contents">
                 <dt className="text-steel">{c.cle}</dt>
@@ -67,7 +80,7 @@ export function ProductCard({ product: p }: { product: P }) {
             ))}
           </dl>
         )}
-        <div className="relative z-10 mt-auto pt-4">
+        <div className="relative z-10 mt-auto pt-3">
           <AddToQuoteButton
             sku={p.sku!}
             name={p.name!}

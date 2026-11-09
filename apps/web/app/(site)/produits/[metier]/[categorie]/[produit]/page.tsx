@@ -4,7 +4,7 @@ import { getProduct, getSettings } from "@/lib/data";
 import { seoMeta } from "@/lib/seo";
 import { productHref, SITE_URL, telHref, whatsappHref } from "@/lib/site";
 import { Breadcrumb, ButtonLink, Container, Section } from "@/components/ui";
-import { SanityImage } from "@/components/sanity-image";
+import { ProductGallery } from "@/components/product-gallery";
 import { RichText } from "@/components/rich-text";
 import { VideoEmbed } from "@/components/video-embed";
 import { AddToQuoteButton } from "@/components/add-to-quote";
@@ -28,6 +28,8 @@ export default async function ProductPage({ params }: Props) {
     getSettings(),
   ]);
   if (!p) notFound();
+
+  console.log("Produits", produit);
 
   const images = (p.images ?? []).filter((i) => i?.asset);
   const specs = (p.caracteristiques ?? []).filter((c) => c.cle && c.valeur);
@@ -73,30 +75,11 @@ export default async function ProductPage({ params }: Props) {
       </Container>
 
       <Container className="grid gap-10 pb-14 lg:grid-cols-2">
-        <div className="space-y-3">
-          <SanityImage
-            image={images[0] ?? p.image}
-            priority
-            ratio="aspect-[4/3]"
-            className="rounded-lg"
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            fallbackAlt={p.name!}
-          />
-          {images.length > 1 && (
-            <div className="grid grid-cols-4 gap-3">
-              {images.slice(1, 5).map((img, i) => (
-                <SanityImage
-                  key={i}
-                  image={img}
-                  ratio="aspect-square"
-                  className="rounded-md"
-                  sizes="15vw"
-                  fallbackAlt={p.name!}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        <ProductGallery
+          images={images}
+          fallbackImage={p.image}
+          productName={p.name ?? ""}
+        />
 
         <div>
           {p.marque && <p className="text-steel">{p.marque}</p>}
@@ -105,12 +88,12 @@ export default async function ProductPage({ params }: Props) {
           </h1>
           <p className="mt-1 text-sm text-steel">Référence {p.sku}</p>
           {p.accroche && (
-            <p className="mt-4 text-lg leading-relaxed text-steel">
+            <p className="mt-4 font-poppins text-lg leading-relaxed text-steel">
               {p.accroche}
             </p>
           )}
           {p.pointsForts && p.pointsForts.length > 0 && (
-            <ul className="mt-5 list-disc space-y-1.5 pl-5">
+            <ul className="mt-4 list-disc space-y-1 pl-5">
               {p.pointsForts.map((t) => (
                 <li key={t}>{t}</li>
               ))}
@@ -147,7 +130,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="space-y-8">
               {p.description?.length ? (
                 <div>
-                  <h2 className="mb-3 text-2xl font-bold">Description</h2>
+                  <h2 className="mb-2 text-2xl font-bold">Description</h2>
                   <RichText value={p.description} />
                 </div>
               ) : null}
@@ -160,9 +143,9 @@ export default async function ProductPage({ params }: Props) {
                 <h2 className="mb-3 text-2xl font-bold">Caractéristiques</h2>
                 <dl className="divide-y divide-ink/10 border-y border-ink/10">
                   {specs.map((c) => (
-                    <div key={c.cle} className="grid grid-cols-2 gap-4 py-3">
-                      <dt className="text-steel">{c.cle}</dt>
-                      <dd className="font-semibold">{c.valeur}</dd>
+                    <div key={c.cle} className="grid grid-cols-2 gap-4 py-2">
+                      <dt className="text-sm text-steel">{c.cle}</dt>
+                      <dd className="text-sm font-semibold">{c.valeur}</dd>
                     </div>
                   ))}
                 </dl>

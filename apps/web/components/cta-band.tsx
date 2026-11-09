@@ -30,7 +30,7 @@ export function CtaBand({
           <h2 className="text-3xl font-bold leading-tight sm:text-4xl">
             {title}
           </h2>
-          <p className="mt-3 text-white/75">
+          <p className="mt-3 font-poppins text-white/75">
             {text ??
               "Décrivez votre besoin : nous vous répondons avec un devis détaillé, par WhatsApp, téléphone ou email selon votre préférence."}
           </p>

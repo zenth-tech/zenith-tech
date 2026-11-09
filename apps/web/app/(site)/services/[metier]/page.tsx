@@ -44,7 +44,7 @@ export default async function ServicePage({ params }: Props) {
       <Container className="grid gap-12 py-14 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           {m.description && (
-            <p className="max-w-2xl text-lg leading-relaxed text-steel">
+            <p className="max-w-2xl font-poppins text-lg leading-relaxed text-steel">
               {m.description}
             </p>
           )}

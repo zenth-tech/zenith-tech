@@ -1,6 +1,9 @@
 type Carac = {cle?: string | null; valeur?: string | null}
 type WithCarac = {caracteristiques?: Carac[] | null}
 
+const normalizeKey = (key: string) =>
+  key.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase()
+
 export type FacetValue = {valeur: string; count: number}
 export type Facet = {cle: string; valeurs: FacetValue[]}
 
@@ -14,7 +17,9 @@ export function buildFacets(products: WithCarac[], filtres: string[] = []): Face
     .map((cle) => {
       const counts = new Map<string, number>()
       for (const p of products) {
-        const c = p.caracteristiques?.find((x) => x.cle === cle)
+        const c = p.caracteristiques?.find(
+          (x) => x.cle && normalizeKey(x.cle) === normalizeKey(cle),
+        )
         if (c?.valeur) counts.set(c.valeur, (counts.get(c.valeur) ?? 0) + 1)
       }
       const valeurs = [...counts]
@@ -38,7 +43,9 @@ export function applyFilters<T extends WithCarac>(
   if (entries.length === 0) return products
   return products.filter((p) =>
     entries.every(([cle, valeurs]) => {
-      const c = p.caracteristiques?.find((x) => x.cle === cle)
+      const c = p.caracteristiques?.find(
+        (x) => x.cle && normalizeKey(x.cle) === normalizeKey(cle),
+      )
       return !!c?.valeur && valeurs.includes(c.valeur)
     }),
   )

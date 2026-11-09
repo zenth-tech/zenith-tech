@@ -148,7 +148,11 @@ export function Section({
                   {title}
                 </h2>
               )}
-              {intro && <p className="mt-3 max-w-2xl text-steel">{intro}</p>}
+              {intro && (
+                <p className="mt-3 font-poppins max-w-2xl text-steel">
+                  {intro}
+                </p>
+              )}
             </div>
             {action}
           </div>

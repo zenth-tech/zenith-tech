@@ -1,12 +1,14 @@
 'use client'
 
 import {usePathname, useRouter} from 'next/navigation'
+import {useId} from 'react'
 import type {Facet} from '@/lib/facets'
 
 /** Les filtres vivent dans l'URL (?f.Résolution=4+MP) : les liens sont partageables. */
 export function Filters({facets, selected}: {facets: Facet[]; selected: Record<string, string[]>}) {
   const router = useRouter()
   const pathname = usePathname()
+  const idPrefix = useId()
 
   function toggle(cle: string, valeur: string) {
     const next = {...selected}
@@ -29,7 +31,7 @@ export function Filters({facets, selected}: {facets: Facet[]; selected: Record<s
           <ul className="space-y-1">
             {f.valeurs.map((v) => {
               const checked = selected[f.cle]?.includes(v.valeur) ?? false
-              const id = `${f.cle}-${v.valeur}`
+              const id = `${idPrefix}-${f.cle}-${v.valeur}`
               return (
                 <li key={v.valeur}>
                   <label htmlFor={id} className="flex min-h-9 cursor-pointer items-center gap-2.5">

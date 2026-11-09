@@ -107,7 +107,7 @@ export function Hero({
           </h1>
           <p
             data-hero-fade
-            className="mt-5 max-w-xl text-lg leading-relaxed text-white/80"
+            className="mt-5 font-poppins max-w-xl text-lg leading-relaxed text-white/80"
           >
             {text}
           </p>

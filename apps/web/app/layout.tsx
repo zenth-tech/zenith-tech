@@ -5,6 +5,7 @@ import {
   instrument,
   notoSans,
   playfairDisplayHeading,
+  poppins,
 } from "./fonts";
 import { getSettings } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
@@ -48,6 +49,7 @@ export default function RootLayout({
         "font-sans",
         notoSans.variable,
         playfairDisplayHeading.variable,
+        poppins.variable,
       )}
     >
       <head />

@@ -74,7 +74,7 @@ export function ActivityPoles() {
           <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
             Six domaines, un seul interlocuteur
           </h2>
-          <p className="mt-3 text-steel">
+          <p className="mt-3 font-poppins text-steel">
             Du projet à la maintenance, une même équipe s’occupe de vos
             installations.
           </p>
