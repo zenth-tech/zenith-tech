@@ -4,15 +4,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import type { MenuMetier } from "@/lib/types";
+import { useQuery } from "@tanstack/react-query";
 import { QuoteCount } from "./quote-link";
+import { getMenu } from "@/lib/data";
 
-export function MobileMenu({ menu }: { menu: MenuMetier[] }) {
+export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
+  const { data } = useQuery({
+    queryKey: ["menu"],
+    queryFn: getMenu,
+  });
+  const menu = data ?? [];
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;

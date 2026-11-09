@@ -5,18 +5,30 @@ import { MobileMenu } from "./mobile-menu";
 import { QuoteLink } from "./quote-link";
 import { SanityImage } from "./sanity-image";
 import { HeaderNavigation } from "./header-navigation";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
 export async function SiteHeader() {
-  const [menu, settings] = await Promise.all([getMenu(), getSettings()]);
+  const queryClient = new QueryClient();
+  const settings = await getSettings();
+
+  await queryClient.query({
+    queryKey: ["menu"],
+    queryFn: getMenu,
+  });
+
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper/95 shadow-[0_3px_16px_rgb(16_36_59/0.04)] backdrop-blur-xl">
       <Container className="flex h-[4.5rem] items-center justify-between gap-3 sm:gap-5">
         <Link
           href="/"
           className="flex min-w-0 shrink-0 items-center gap-2.5"
-          aria-label={`${settings.nomEntreprise ?? "Accueil"} : accueil`}
+          aria-label={`${settings?.nomEntreprise ?? "Accueil"} : accueil`}
         >
-          {settings.logo?.asset ? (
+          {settings?.logo?.asset ? (
             <div className="w-28 sm:w-32">
               <SanityImage
                 image={settings.logo}
@@ -38,12 +50,15 @@ export async function SiteHeader() {
             </>
           )}
         </Link>
-
-        <HeaderNavigation menu={menu} />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <HeaderNavigation />
+        </HydrationBoundary>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <QuoteLink className="hidden sm:inline-flex" />
-          <MobileMenu menu={menu} />
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <MobileMenu />
+          </HydrationBoundary>
         </div>
       </Container>
     </header>

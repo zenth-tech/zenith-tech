@@ -1,15 +1,20 @@
-import type {Settings} from './types'
+import { SiteSettingsQueryResult } from "@/lib/sanity/types";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+).replace(/\/$/, "");
 
-export const digits = (s?: string) => (s ?? '').replace(/\D/g, '')
+export const digits = (s?: string) => (s ?? "").replace(/\D/g, "");
 
-export const telHref = (s?: Settings) => (s?.telephone?.length ? `tel:+${digits(s.telephone?.[0])}` : undefined)
+export const telHref = (s?: SiteSettingsQueryResult) =>
+  s?.telephone?.length ? `tel:+${digits(s.telephone?.[0])}` : undefined;
 
-export const whatsappHref = (s?: Settings, message?: string) =>
+export const whatsappHref = (s?: SiteSettingsQueryResult, message?: string) =>
   s?.whatsapp
-    ? `https://wa.me/${digits(s.whatsapp?.[0])}${message ? `?text=${encodeURIComponent(message)}` : ''}`
-    : undefined
+    ? `https://wa.me/${digits(s.whatsapp?.[0])}${message ? `?text=${encodeURIComponent(message)}` : ""}`
+    : undefined;
 
-export const mailHref = (s?: Settings, subject?: string) =>
-  s?.email ? `mailto:${s.email}${subject ? `?subject=${encodeURIComponent(subject)}` : ''}` : undefined
+export const mailHref = (s?: SiteSettingsQueryResult, subject?: string) =>
+  s?.email
+    ? `mailto:${s.email}${subject ? `?subject=${encodeURIComponent(subject)}` : ""}`
+    : undefined;

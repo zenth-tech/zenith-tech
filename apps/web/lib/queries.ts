@@ -127,7 +127,11 @@ export const metiersCatalogueQuery = defineQuery(`
 
 // ---------- generateStaticParams / sitemap ----------
 export const productSlugsQuery = defineQuery(`
-  *[_type == "product" && defined(slug.current) && defined(categorie->slug.current)]{
+  *[_type == "product"
+    && defined(slug.current)
+    && defined(categorie->slug.current)
+    && defined(categorie->metier->slug.current)
+  ]{
     "produit": slug.current,
     "categorie": categorie->slug.current,
     "metier": categorie->metier->slug.current,
@@ -136,13 +140,15 @@ export const productSlugsQuery = defineQuery(`
 `);
 
 export const categorieSlugsQuery = defineQuery(`
-  *[_type == "categorie" && defined(slug.current)]{
+  *[_type == "categorie" && defined(slug.current) && defined(metier->slug.current)]{
     "categorie": slug.current, "metier": metier->slug.current, _updatedAt
   }
 `);
 
 export const metierSlugsQuery = defineQuery(`
-  *[_type == "metier" && defined(slug.current)]{ "metier": slug.current, _updatedAt }
+  *[_type == "metier" && defined(slug.current)]{
+    "metier": slug.current, aCatalogue, _updatedAt
+  }
 `);
 
 export const realisationSlugsQuery = defineQuery(`

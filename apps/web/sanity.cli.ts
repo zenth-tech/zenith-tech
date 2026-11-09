@@ -1,9 +1,13 @@
-import {defineCliConfig} from 'sanity/cli'
+import { defineCliConfig } from "sanity/cli";
 
 export default defineCliConfig({
-	api: {
-		projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'uw4odwl8',
-		dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-	},
-})
-
+  api: {
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "uw4odwl8",
+    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  },
+  typegen: {
+    path: "./**/*.{ts,tsx,js,jsx}",
+    schema: "./lib/sanity/extract.json",
+    generates: "./lib/sanity/types.ts",
+  },
+});

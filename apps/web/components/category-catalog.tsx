@@ -6,13 +6,13 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowUpRight, Boxes } from "lucide-react";
 import { SanityImage } from "@/components/sanity-image";
-import type { Metier } from "@/lib/types";
+import { MetierQueryResult } from "@/lib/sanity/types";
 
 gsap.registerPlugin(useGSAP);
 
 type Props = {
   metierSlug: string;
-  categories: Metier["categories"];
+  categories: NonNullable<MetierQueryResult>["categories"];
 };
 
 export function CategoryCatalog({ metierSlug, categories }: Props) {
@@ -56,7 +56,7 @@ export function CategoryCatalog({ metierSlug, categories }: Props) {
                       ratio="aspect-[4/3]"
                       className="h-full"
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      fallbackAlt={category.title}
+                      fallbackAlt={category.title ?? undefined}
                     />
                   </div>
                 ) : (

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import type { Settings } from "@/lib/types";
 import { telHref, whatsappHref } from "@/lib/site";
 import { QuoteCount } from "./quote-link";
+import { SiteSettingsQueryResult } from "@/lib/sanity/types";
 
 /** Barre fixe sur téléphone : les trois canaux de contact toujours à portée de pouce. */
-export function MobileBar({ settings }: { settings: Settings }) {
+export function MobileBar({ settings }: { settings: SiteSettingsQueryResult }) {
   const tel = telHref(settings);
   const wa = whatsappHref(settings, "Bonjour, je souhaite un renseignement.");
   const item =

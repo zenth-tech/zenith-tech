@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, type ReactNode } from "react";
+import { type ReactNode, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -89,7 +89,7 @@ export function QuoteButton({
 
   const sizing =
     size === "sm"
-      ? "min-h-10 px-5 py-2 text-sm"
+      ? "min-h-10 px-3 py-2 text-sm"
       : "min-h-12 px-8 py-3 text-[1rem]";
 
   return (

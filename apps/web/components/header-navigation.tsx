@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { MenuMetier } from "@/lib/types";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,6 +11,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { MenuQueryResult } from "@/lib/sanity/types";
+import { cn } from "@/lib/utils";
+import {useQuery} from "@tanstack/react-query"
+import { getMenu } from "@/lib/data";
 
 const links = [
   { label: "Réalisations", href: "/realisations" },
@@ -26,27 +29,36 @@ function isActive(pathname: string, href: string) {
 const menuLinkClass =
   "font-display text-sm font-semibold text-ink/80 transition-colors hover:text-ink";
 
-export function HeaderNavigation({ menu }: { menu: MenuMetier[] }) {
+export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
   const pathname = usePathname();
   const servicesActive = isActive(pathname, "/services");
   const catalogueActive = isActive(pathname, "/produits");
+
+  const {data: menu} = useQuery({
+    queryKey: ["menu"],
+    queryFn: getMenu
+  })
 
   return (
     <NavigationMenu
       aria-label="Navigation principale"
       className="hidden md:flex"
     >
-      <NavigationMenuList className="md:gap-1">
+      <NavigationMenuList className="md:gap-0">
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={`${menuLinkClass} ${servicesActive ? "relative bg-mist text-ink after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full after:bg-solar" : ""}`}
+            className={cn(
+              menuLinkClass,
+              servicesActive &&
+                "relative bg-mist text-ink after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full after:bg-solar",
+            )}
             aria-current={servicesActive ? "page" : undefined}
           >
             Services
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[30rem] grid-cols-2 gap-1">
-              {menu.map((metier) => {
+              {menu?.map((metier) => {
                 const href = `/services/${metier.slug}`;
                 const active = isActive(pathname, href);
                 return (
@@ -86,7 +98,7 @@ export function HeaderNavigation({ menu }: { menu: MenuMetier[] }) {
           <NavigationMenuContent>
             <ul className="grid w-[30rem] grid-cols-2 gap-1">
               {menu
-                .filter((metier) => metier.aCatalogue)
+                ?.filter((metier) => metier.aCatalogue)
                 .map((metier) => {
                   const href = `/produits/${metier.slug}`;
                   const active = isActive(pathname, href);

@@ -1,7 +1,6 @@
 "use client";
 
 import { useQuote } from "@/lib/quote";
-import { BorderButton } from "./border-button";
 import { QuoteButton } from "./ui/quote-button";
 
 export function QuoteCount({ className = "" }: { className?: string }) {
@@ -22,7 +21,7 @@ export function QuoteLink({
   className?: string;
 }) {
   return (
-    <QuoteButton className={className} href="/devis">
+    <QuoteButton size="sm" className={className} href="/devis">
       Demander un devis
       <QuoteCount />
     </QuoteButton>

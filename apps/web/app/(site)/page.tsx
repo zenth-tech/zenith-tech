@@ -13,16 +13,26 @@ import { ActivityPoles } from "@/components/activity-poles";
 import { ProductCard, RealisationCard } from "@/components/cards";
 import { CtaBand } from "@/components/cta-band";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { RealisationCard as RC } from "@/lib/types";
 
 export default async function HomePage() {
-  const [settings, metiers, products, realisations, clients] =
-    await Promise.all([
-      getSettings(),
-      getMetiers(),
-      getFeaturedProducts(),
-      getFeaturedRealisations(),
-      getClients(),
-    ]);
+  const [settings, products, realisations, clients] = await Promise.all([
+    getSettings(),
+    getFeaturedProducts(),
+    getFeaturedRealisations(),
+    getClients(),
+  ]);
+  const queryClient = new QueryClient();
+
+  await queryClient.query({
+    queryKey: ["metiers"],
+    queryFn: getMetiers,
+  });
   const wa = whatsappHref(settings, "Bonjour, je souhaite un devis.");
   const tel = telHref(settings);
   const heroImage = realisations.find((r) => r.image?.asset)?.image ?? null;
@@ -32,12 +42,12 @@ export default async function HomePage() {
       <Hero
         title="Sécurité électronique, énergie solaire et infrastructures IT, installées à Bamako"
         text={
-          settings.presentation ??
+          settings?.presentation ??
           "Nous concevons, installons et maintenons la sécurité et l’énergie de vos bâtiments depuis plus de cinq ans."
         }
         whatsappHref={wa}
         telHref={tel}
-        phoneLabel={settings.telephone?.[0]}
+        phoneLabel={settings?.telephone?.[0]}
         image={
           <SanityImage
             image={heroImage}
@@ -48,9 +58,9 @@ export default async function HomePage() {
           />
         }
       />
-
-      <ActivityPoles metiers={metiers} />
-
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ActivityPoles />
+      </HydrationBoundary>
       {products.length > 0 && (
         <ScrollReveal revealItems>
           <Section
@@ -87,7 +97,7 @@ export default async function HomePage() {
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {realisations.slice(0, 3).map((r) => (
                 <div key={r._id} data-scroll-reveal-item>
-                  <RealisationCard item={r} />
+                  <RealisationCard item={r as RC} />
                 </div>
               ))}
             </div>
