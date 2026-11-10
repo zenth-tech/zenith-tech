@@ -18,6 +18,7 @@ export function ProductCard({
   className?: string;
 }) {
   const root = useRef<HTMLElement>(null);
+
   const specs = (p.caracteristiques ?? [])
     .filter((c) => c.cle && c.valeur)
     .slice(0, 3);
@@ -26,8 +27,11 @@ export function ProductCard({
 
   const animateImage = contextSafe((card: HTMLElement, scale: number) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const image = card.querySelector<HTMLElement>("[data-product-image]");
+
     if (!image) return;
+
     gsap.to(image, {
       scale,
       duration: 0.65,
@@ -35,21 +39,23 @@ export function ProductCard({
       overwrite: "auto",
     });
   });
+
   return (
     <article
       ref={root}
       className={cn(
-        className,
         "relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-lg border border-ink/10 bg-white shadow-md",
+        className,
       )}
       onPointerEnter={(event) => animateImage(event.currentTarget, 1.06)}
       onPointerLeave={(event) => animateImage(event.currentTarget, 1)}
       onFocus={(event) => animateImage(event.currentTarget, 1.06)}
       onBlur={(event) => animateImage(event.currentTarget, 1)}
     >
+      {/* Image du produit */}
       <div
         data-product-image
-        className="h-28 w-full shrink-0 overflow-hidden sm:h-32"
+        className="relative h-28 w-full shrink-0 overflow-hidden sm:h-32"
       >
         <SanityImage
           image={p.image}
@@ -58,29 +64,42 @@ export function ProductCard({
           sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
         />
       </div>
+
+      {/* Contenu de la carte */}
       <div className="flex flex-1 flex-col p-3">
-        {p.marque && <p className="text-xs text-steel">{p.marque}</p>}
-        <h3 className="text-base font-bold leading-snug">
-          <Link href={productHref(p)} className="after:absolute after:inset-0">
-            {p.name}
-          </Link>
-        </h3>
-        {p.accroche && (
-          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-steel">
-            {p.accroche}
-          </p>
-        )}
-        {specs.length > 0 && (
-          <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0 text-xs">
-            {specs.map((c) => (
-              <div key={c.cle} className="contents">
-                <dt className="text-steel">{c.cle}</dt>
-                <dd className="font-semibold">{c.valeur}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
-        <div className="relative z-10 mt-auto pt-3">
+        {/* Informations du produit */}
+        <div className="mt-auto">
+          {p.marque && <p className="text-xs text-steel">{p.marque}</p>}
+
+          <h3 className="text-base font-bold leading-snug">
+            <Link
+              href={productHref(p)}
+              className="after:absolute after:inset-0"
+            >
+              {p.name}
+            </Link>
+          </h3>
+
+          {p.accroche && (
+            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-steel">
+              {p.accroche}
+            </p>
+          )}
+
+          {specs.length > 0 && (
+            <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0 text-xs">
+              {specs.map((c) => (
+                <div key={c.cle} className="contents">
+                  <dt className="text-steel">{c.cle}</dt>
+                  <dd className="font-semibold">{c.valeur}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+
+        {/* Bouton d'ajout au devis */}
+        <div className="relative z-10 pt-3">
           <AddToQuoteButton
             sku={p.sku!}
             name={p.name!}

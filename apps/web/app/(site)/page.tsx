@@ -62,6 +62,7 @@ export default async function HomePage() {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ActivityPoles />
       </HydrationBoundary>
+
       {products.length > 0 && (
         <ScrollReveal revealItems>
           <Section
