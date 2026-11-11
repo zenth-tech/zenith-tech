@@ -40,7 +40,7 @@ export default async function CategoriePage({ params, searchParams }: Props) {
   const facets = buildFacets(products, c.filtres ?? []);
   const shown = applyFilters(products, selected);
   const hasFilters = Object.values(selected).some((v) => v.length);
-
+  console.log("Facets:", facets);
   return (
     <>
       <PageHeader
@@ -88,7 +88,7 @@ export default async function CategoriePage({ params, searchParams }: Props) {
           {shown.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {shown.map((p) => (
-                <ProductCard className="" key={p._id} product={p} />
+                <ProductCard className="h-80 w-60" key={p._id} product={p} />
               ))}
             </div>
           ) : (

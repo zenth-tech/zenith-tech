@@ -30,8 +30,9 @@ lib/quote.tsx            panier de devis (navigateur)
 ```
 
 ## Devis
-Le formulaire envoie un JSON à `/api/devis`. Pour le transmettre à votre futur ERP NestJS, renseignez `QUOTE_WEBHOOK_URL`.
-Sans cette variable, la demande est seulement écrite dans les logs du serveur : **ne mettez pas le site en ligne sans l'avoir configurée**.
+Le formulaire envoie un JSON à `/api/devis`. Configurez `RESEND_API_KEY`, `QUOTE_TO_EMAIL` et `QUOTE_FROM_EMAIL` pour recevoir les demandes par email avec Resend. L'adresse `QUOTE_FROM_EMAIL` doit appartenir à un domaine vérifié dans Resend.
+Vous pouvez aussi renseigner `QUOTE_WEBHOOK_URL` pour transmettre la demande à votre ERP. Au moins Resend ou le webhook doit être configuré pour que l'envoi réussisse.
+Si `QUOTE_WEBHOOK_SECRET` est défini, il est envoyé au webhook dans l'en-tête `Authorization: Bearer`.
 
 ## À faire avant la mise en ligne
 - Remplacer les couleurs, le logo et les textes quand la maquette sera refaite (couleurs dans `app/globals.css`).

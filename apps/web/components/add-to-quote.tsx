@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useQuote } from "@/lib/quote";
+import { useQuoteStore } from "@/store/quote";
+import { Button } from "./ui/button";
 
 export function AddToQuoteButton({
   sku,
@@ -16,8 +18,10 @@ export function AddToQuoteButton({
   size?: "sm" | "md";
   className?: string;
 }) {
-  const { add } = useQuote();
+  const { add: addQuote, ready, items } = useQuoteStore();
   const [done, setDone] = useState(false);
+
+  console.log("Items in quote store:", items);
 
   useEffect(() => {
     if (!done) return;
@@ -26,17 +30,17 @@ export function AddToQuoteButton({
   }, [done]);
 
   return (
-    <button
+    <Button
       type="button"
       onClick={() => {
-        add({ sku, name, url });
+        addQuote({ sku, name, url });
         setDone(true);
       }}
-      className={`inline-flex min-h-11 items-center justify-center rounded-md bg-ink px-4 font-semibold text-white transition-colors hover:bg-steel ${size === "sm" ? "text-sm" : "text-[0.95rem]"} ${className}`}
+      className={`inline-flex cursor-pointer min-h-10 rounded-md font-semibold text-white transition-colors hover:bg-steel ${size === "sm" ? "text-sm" : "text-[0.95rem]"} ${className}`}
     >
       <span aria-live="polite">
         {done ? "Ajouté à votre demande" : "Ajouter au devis"}
       </span>
-    </button>
+    </Button>
   );
 }

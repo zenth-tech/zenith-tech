@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useQuote } from "@/lib/quote";
+import { useQuoteStore } from "@/store/quote";
 
 type Props = {
   defaultSubject?: string;
@@ -16,7 +16,7 @@ const field =
 const label = "block text-sm font-semibold";
 
 export function QuoteForm({ defaultSubject, whatsapp, companyName }: Props) {
-  const { items, setQty, remove, clear, ready } = useQuote();
+  const { items, setQty, remove, clear, ready } = useQuoteStore();
   const [canal, setCanal] = useState<Canal>("whatsapp");
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
     "idle",

@@ -1,3 +1,4 @@
+import {Resend} from 'resend'
 import {NextResponse} from 'next/server'
 
 // Limitation simple en mémoire (par instance). À remplacer par Upstash/Redis ou Cloudflare Turnstile en production.
@@ -54,18 +55,79 @@ export async function POST(req: Request) {
 
   hits.set(ip, [...recent, now])
 
-  // Transmet la demande à votre futur ERP (NestJS) ou à tout service qui accepte du JSON.
+  const resendApiKey = process.env.RESEND_API_KEY
+  const quoteToEmail = process.env.QUOTE_TO_EMAIL
+  const quoteFromEmail = process.env.QUOTE_FROM_EMAIL
+  const hasEmailConfig = Boolean(resendApiKey || quoteToEmail || quoteFromEmail)
+  const hasCompleteEmailConfig = Boolean(resendApiKey && quoteToEmail && quoteFromEmail)
+
+  if (hasEmailConfig && !hasCompleteEmailConfig) {
+    console.error('[devis] configuration Resend incomplète')
+    return NextResponse.json({error: 'Envoi impossible pour le moment. Contactez-nous par WhatsApp ou téléphone.'}, {status: 500})
+  }
+
+  // Transmet aussi la demande à votre ERP si un webhook est configuré.
   const webhook = process.env.QUOTE_WEBHOOK_URL
   if (webhook) {
     try {
-      const res = await fetch(webhook, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(quote)})
+      const webhookSecret = process.env.QUOTE_WEBHOOK_SECRET
+      const res = await fetch(webhook, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(webhookSecret ? {Authorization: `Bearer ${webhookSecret}`} : {}),
+        },
+        body: JSON.stringify(quote),
+      })
       if (!res.ok) throw new Error(`Webhook ${res.status}`)
     } catch (err) {
       console.error('[devis] échec du webhook', err)
       return NextResponse.json({error: 'Envoi impossible pour le moment. Contactez-nous par WhatsApp ou téléphone.'}, {status: 502})
     }
-  } else {
-    console.info('[devis] nouvelle demande (aucun QUOTE_WEBHOOK_URL configuré)', JSON.stringify(quote))
+  }
+
+  if (resendApiKey && quoteToEmail && quoteFromEmail) {
+    const resend = new Resend(resendApiKey)
+    const text = [
+      `Nouvelle demande de devis de ${quote.nom}`,
+      '',
+      `Téléphone : ${quote.telephone || 'Non renseigné'}`,
+      `Email : ${quote.email || 'Non renseigné'}`,
+      `Ville : ${quote.ville || 'Non renseignée'}`,
+      `Type de client : ${quote.typeClient}`,
+      `Canal préféré : ${quote.canal}`,
+      '',
+      'Produits :',
+      quote.items.length
+        ? quote.items.map((item) => `- ${item.qty} x ${item.name} (Réf. ${item.sku})`).join('\n')
+        : 'Aucun produit sélectionné',
+      '',
+      'Projet :',
+      quote.message || 'Non renseigné',
+      '',
+      `Reçu le : ${quote.receivedAt}`,
+    ].join('\n')
+
+    try {
+      const {error} = await resend.emails.send({
+        from: quoteFromEmail,
+        to: quoteToEmail,
+        subject: `Demande de devis — ${quote.nom}`,
+        text,
+        ...(quote.email && /^\S+@\S+\.\S+$/.test(quote.email) ? {replyTo: quote.email} : {}),
+      })
+
+      if (error) {
+        console.error('[devis] échec de l’envoi Resend', error)
+        return NextResponse.json({error: 'Envoi impossible pour le moment. Contactez-nous par WhatsApp ou téléphone.'}, {status: 502})
+      }
+    } catch (err) {
+      console.error('[devis] erreur réseau lors de l’envoi Resend', err)
+      return NextResponse.json({error: 'Envoi impossible pour le moment. Contactez-nous par WhatsApp ou téléphone.'}, {status: 502})
+    }
+  } else if (!webhook) {
+    console.error('[devis] aucun service de réception configuré')
+    return NextResponse.json({error: 'Envoi impossible pour le moment. Contactez-nous par WhatsApp ou téléphone.'}, {status: 503})
   }
 
   return NextResponse.json({ok: true})

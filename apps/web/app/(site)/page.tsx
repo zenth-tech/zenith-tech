@@ -20,6 +20,7 @@ import {
 } from "@tanstack/react-query";
 import { RealisationCard as RC } from "@/lib/types";
 import { RealisationCard } from "@/components/realisation-card";
+import { OutlineButton } from "@/components/ui/outline-button";
 
 export default async function HomePage() {
   const [settings, products, realisations, clients] = await Promise.all([
@@ -70,9 +71,9 @@ export default async function HomePage() {
             intro="Ajoutez les produits qui vous intéressent à votre demande, nous vous envoyons un devis."
             className="bg-white"
             action={
-              <ButtonLink href="/produits" variant="outline">
+              <OutlineButton className="bg-white" href="/produits">
                 Tout le catalogue
-              </ButtonLink>
+              </OutlineButton>
             }
           >
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

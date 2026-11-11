@@ -1,11 +1,11 @@
 "use client";
 
-import { useQuote } from "@/lib/quote";
 import { QuoteButton } from "./ui/quote-button";
+import { useQuoteStore } from "@/store/quote";
 
 export function QuoteCount({ className = "" }: { className?: string }) {
-  const { count, ready } = useQuote();
-  if (!ready || count === 0) return null;
+  const count = useQuoteStore((state) => state.count);
+  if (count === 0) return null;
   return (
     <span
       className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ink px-1.5 text-xs font-bold text-white ${className}`}

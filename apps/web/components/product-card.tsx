@@ -55,23 +55,25 @@ export function ProductCard({
       {/* Image du produit */}
       <div
         data-product-image
-        className="relative h-28 w-full shrink-0 overflow-hidden sm:h-32"
+        className="relative h-40 w-full shrink-0 overflow-hidden sm:h-44"
       >
         <SanityImage
           image={p.image}
           fallbackAlt={p.name ?? undefined}
           ratio="h-full"
+          className="bg-transparent"
+          imageClassName="h-full object-contain"
           sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
         />
       </div>
 
       {/* Contenu de la carte */}
-      <div className="flex flex-1 flex-col p-3">
+      <div className="flex flex-1 flex-col p-2">
         {/* Informations du produit */}
-        <div className="mt-auto">
+        <div className="flex-1">
           {p.marque && <p className="text-xs text-steel">{p.marque}</p>}
 
-          <h3 className="text-base font-bold leading-snug">
+          <h3 className="text-base line-clamp-1 font-bold leading-tight">
             <Link
               href={productHref(p)}
               className="after:absolute after:inset-0"
@@ -81,7 +83,7 @@ export function ProductCard({
           </h3>
 
           {p.accroche && (
-            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-steel">
+            <p className="mt-0.5 font-poppins line-clamp-2 text-xs leading-relaxed text-steel">
               {p.accroche}
             </p>
           )}
@@ -99,13 +101,13 @@ export function ProductCard({
         </div>
 
         {/* Bouton d'ajout au devis */}
-        <div className="relative z-10 pt-3">
+        <div className="relative z-10 pt-2">
           <AddToQuoteButton
             sku={p.sku!}
             name={p.name!}
             url={productHref(p)}
             size="sm"
-            className="w-full"
+            className="w-full rounded-2xl"
           />
         </div>
       </div>
