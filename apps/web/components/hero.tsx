@@ -147,8 +147,23 @@ export function Hero({
             </p>
           )}
         </div>
-        <Viewfinder>
-          <div data-hero-image>{image}</div>
+        <Viewfinder className="mx-auto w-full max-w-[34rem] rounded-[1.75rem] border border-white/15 bg-white/[0.04] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+          <div
+            data-hero-image
+            className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.2rem] bg-black"
+          >
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover"
+            >
+              <source src="/videos/hero.mp4" type="video/mp4" />
+              Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+          </div>
         </Viewfinder>
       </Container>
     </section>

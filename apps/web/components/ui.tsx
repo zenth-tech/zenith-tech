@@ -197,11 +197,11 @@ export function Viewfinder({
       />
       <span
         data-vf-label
-        className="pointer-events-none absolute left-12 top-[1.15rem] flex items-center gap-2 rounded bg-ink/70 px-2 py-1 text-xs font-medium text-white"
+        className="pointer-events-none absolute left-12 top-[1.15rem] flex items-center gap-2 rounded-full border border-white/20 bg-ink/85 px-2.5 py-1 text-[0.65rem] font-semibold tracking-[0.16em] text-white shadow-sm backdrop-blur-sm"
       >
         <span
           aria-hidden
-          className="h-2 w-2 rounded-full bg-red-500 motion-safe:animate-pulse"
+          className="h-2 w-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.9)] motion-safe:animate-pulse"
         />
         Bamako
       </span>
