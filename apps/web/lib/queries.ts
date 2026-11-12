@@ -19,10 +19,16 @@ const REALISATION_CARD = `{
 // ---------- Global ----------
 export const siteSettingsQuery = defineQuery(`
   *[_type == "siteSettings"][0]{
-    nomEntreprise, slogan, presentation, logo${IMAGE},
+    nomEntreprise, heroVideo, slogan, presentation, logo${IMAGE},
     aProposTitre, aProposTexte, aProposImage${IMAGE}, valeurs, chiffresCles,
     telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,
     facebook, instagram, linkedin, youtube, tiktok, seo
+  }
+`);
+
+export const heroVideoQuery = defineQuery(`
+  *[_type == "siteSettings"][0]{ 
+  "videoUrl": heroVideo.asset->url
   }
 `);
 

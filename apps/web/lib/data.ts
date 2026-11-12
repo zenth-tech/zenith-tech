@@ -26,6 +26,15 @@ export const getSettings = cache(async (): Promise<SiteSettingsQueryResult> => {
   return await q<SiteSettingsQueryResult | null>(Q.siteSettingsQuery);
 });
 
+export const getHereVideo = cache(async (): Promise<string | null> => {
+  const result = await client.fetch<{ videoUrl?: string } | null>(
+    Q.heroVideoQuery,
+    {},
+    { next: { revalidate: REVALIDATE } },
+  );
+  return result?.videoUrl ?? null;
+});
+
 export const getMenu = cache(async (): Promise<MenuQueryResult> => {
   if (!hasSanity) return M.mockMenu as MenuQueryResult;
   return (await q<MenuQueryResult>(Q.menuQuery)) ?? [];
@@ -117,9 +126,9 @@ export async function getSitemapPaths(): Promise<
   if (!hasSanity) return [];
 
   const [metiers, cats, prods, reals] = await Promise.all([
-    q<
-      { metier: string; aCatalogue?: boolean; _updatedAt: string }[]
-    >(Q.metierSlugsQuery),
+    q<{ metier: string; aCatalogue?: boolean; _updatedAt: string }[]>(
+      Q.metierSlugsQuery,
+    ),
     q<{ metier: string; categorie: string; _updatedAt: string }[]>(
       Q.categorieSlugsQuery,
     ),

@@ -469,9 +469,10 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/queries.ts
 // Variable: siteSettingsQuery
-// Query: *[_type == "siteSettings"][0]{    nomEntreprise, slogan, presentation, logo{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },    aProposTitre, aProposTexte, aProposImage{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, valeurs, chiffresCles,    telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,    facebook, instagram, linkedin, youtube, tiktok, seo  }
+// Query: *[_type == "siteSettings"][0]{    nomEntreprise, heroVideo, slogan, presentation, logo{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },    aProposTitre, aProposTexte, aProposImage{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, valeurs, chiffresCles,    telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,    facebook, instagram, linkedin, youtube, tiktok, seo  }
 export type SiteSettingsQueryResult = {
   nomEntreprise: string | null;
+  heroVideo: null;
   slogan: string | null;
   presentation: string | null;
   logo: {
@@ -1176,7 +1177,7 @@ export type MetiersCatalogueQueryResult = Array<{
 
 // Source: lib/queries.ts
 // Variable: productSlugsQuery
-// Query: *[_type == "product" && defined(slug.current) && defined(categorie->slug.current)]{    "produit": slug.current,    "categorie": categorie->slug.current,    "metier": categorie->metier->slug.current,    _updatedAt  }
+// Query: *[_type == "product"    && defined(slug.current)    && defined(categorie->slug.current)    && defined(categorie->metier->slug.current)  ]{    "produit": slug.current,    "categorie": categorie->slug.current,    "metier": categorie->metier->slug.current,    _updatedAt  }
 export type ProductSlugsQueryResult = Array<{
   produit: string | null;
   categorie: string | null;
@@ -1186,7 +1187,7 @@ export type ProductSlugsQueryResult = Array<{
 
 // Source: lib/queries.ts
 // Variable: categorieSlugsQuery
-// Query: *[_type == "categorie" && defined(slug.current)]{    "categorie": slug.current, "metier": metier->slug.current, _updatedAt  }
+// Query: *[_type == "categorie" && defined(slug.current) && defined(metier->slug.current)]{    "categorie": slug.current, "metier": metier->slug.current, _updatedAt  }
 export type CategorieSlugsQueryResult = Array<{
   categorie: string | null;
   metier: string | null;
@@ -1195,9 +1196,10 @@ export type CategorieSlugsQueryResult = Array<{
 
 // Source: lib/queries.ts
 // Variable: metierSlugsQuery
-// Query: *[_type == "metier" && defined(slug.current)]{ "metier": slug.current, _updatedAt }
+// Query: *[_type == "metier" && defined(slug.current)]{    "metier": slug.current, aCatalogue, _updatedAt  }
 export type MetierSlugsQueryResult = Array<{
   metier: string | null;
+  aCatalogue: boolean | null;
   _updatedAt: string;
 }>;
 
@@ -1212,7 +1214,7 @@ export type RealisationSlugsQueryResult = Array<{
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "siteSettings"][0]{\n    nomEntreprise, slogan, presentation, logo{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    aProposTitre, aProposTexte, aProposImage{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, valeurs, chiffresCles,\n    telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,\n    facebook, instagram, linkedin, youtube, tiktok, seo\n  }\n': SiteSettingsQueryResult;
+    '\n  *[_type == "siteSettings"][0]{\n    nomEntreprise, heroVideo, slogan, presentation, logo{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    aProposTitre, aProposTexte, aProposImage{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, valeurs, chiffresCles,\n    telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,\n    facebook, instagram, linkedin, youtube, tiktok, seo\n  }\n': SiteSettingsQueryResult;
     '\n  *[_type == "metier"] | order(ordre asc) {\n    title, "slug": slug.current, accroche, aCatalogue,\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current\n    }\n  }\n': MenuQueryResult;
     '\n  *[_type == "metier"] | order(ordre asc) {\n    _id, title, "slug": slug.current, accroche, description, aCatalogue, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n    }\n  }\n': MetiersQueryResult;
     '\n  *[_type == "metier" && slug.current == $metier][0]{\n    title, "slug": slug.current, accroche, description, aCatalogue, prestations, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, seo,\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current, description, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n    }\n  }\n': MetierQueryResult;
@@ -1225,9 +1227,9 @@ declare global {
     '\n  *[_type == "realisation" && slug.current == $slug][0]{\n    _id, title, "slug": slug.current, resume, ville, client, typeClient, date,\n    contexte, solution, resultat, images[]{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, videoUrl, seo,\n    "metiers": metiers[]->{ title, "slug": slug.current },\n    "produits": produits[]->{\n  _id, name, "slug": slug.current, sku, accroche, marque,\n  "image": images[0]{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n  caracteristiques,\n  "categorie": categorie->{ title, "slug": slug.current, "metier": metier->{ "slug": slug.current } }\n}\n  }\n': RealisationQueryResult;
     '\n  *[_type == "referenceClient" && afficherSurSite == true] | order(ordre asc) {\n    _id, nom, secteur, logo{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n  }\n': ReferencesClientsQueryResult;
     '\n  *[_type == "metier" && aCatalogue == true] | order(ordre asc) {\n    _id, title, "slug": slug.current, accroche, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n    }\n  }\n': MetiersCatalogueQueryResult;
-    '\n  *[_type == "product" && defined(slug.current) && defined(categorie->slug.current)]{\n    "produit": slug.current,\n    "categorie": categorie->slug.current,\n    "metier": categorie->metier->slug.current,\n    _updatedAt\n  }\n': ProductSlugsQueryResult;
-    '\n  *[_type == "categorie" && defined(slug.current)]{\n    "categorie": slug.current, "metier": metier->slug.current, _updatedAt\n  }\n': CategorieSlugsQueryResult;
-    '\n  *[_type == "metier" && defined(slug.current)]{ "metier": slug.current, _updatedAt }\n': MetierSlugsQueryResult;
+    '\n  *[_type == "product"\n    && defined(slug.current)\n    && defined(categorie->slug.current)\n    && defined(categorie->metier->slug.current)\n  ]{\n    "produit": slug.current,\n    "categorie": categorie->slug.current,\n    "metier": categorie->metier->slug.current,\n    _updatedAt\n  }\n': ProductSlugsQueryResult;
+    '\n  *[_type == "categorie" && defined(slug.current) && defined(metier->slug.current)]{\n    "categorie": slug.current, "metier": metier->slug.current, _updatedAt\n  }\n': CategorieSlugsQueryResult;
+    '\n  *[_type == "metier" && defined(slug.current)]{\n    "metier": slug.current, aCatalogue, _updatedAt\n  }\n': MetierSlugsQueryResult;
     '\n  *[_type == "realisation" && defined(slug.current)]{ "slug": slug.current, _updatedAt }\n': RealisationSlugsQueryResult;
   }
 }

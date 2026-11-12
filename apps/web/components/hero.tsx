@@ -17,6 +17,7 @@ type Props = {
   whatsappHref?: string;
   telHref?: string;
   phoneLabel?: string;
+  videoUrl?: string;
 };
 
 /**
@@ -34,6 +35,7 @@ export function Hero({
   whatsappHref,
   telHref,
   phoneLabel,
+  videoUrl,
 }: Props) {
   const root = useRef<HTMLElement>(null);
 
@@ -160,7 +162,7 @@ export function Hero({
               aria-hidden="true"
               className="absolute inset-0 h-full w-full object-cover"
             >
-              <source src="/videos/hero.mp4" type="video/mp4" />
+              <source src={videoUrl} type="video/mp4" />
               Votre navigateur ne supporte pas la lecture de vidéos.
             </video>
           </div>

@@ -2,6 +2,7 @@ import {
   getClients,
   getFeaturedProducts,
   getFeaturedRealisations,
+  getHereVideo,
   getMetiers,
   getSettings,
 } from "@/lib/data";
@@ -29,8 +30,9 @@ export default async function HomePage() {
     getFeaturedRealisations(),
     getClients(),
   ]);
-  const queryClient = new QueryClient();
 
+  const videoUrl = await getHereVideo();
+  const queryClient = new QueryClient();
   await queryClient.query({
     queryKey: ["metiers"],
     queryFn: getMetiers,
@@ -38,7 +40,6 @@ export default async function HomePage() {
   const wa = whatsappHref(settings, "Bonjour, je souhaite un devis.");
   const tel = telHref(settings);
   const heroImage = realisations.find((r) => r.image?.asset)?.image ?? null;
-
   return (
     <>
       <Hero
@@ -47,6 +48,7 @@ export default async function HomePage() {
           settings?.presentation ??
           "Nous concevons, installons et maintenons la sécurité et l’énergie de vos bâtiments depuis plus de cinq ans."
         }
+        videoUrl={videoUrl ?? undefined}
         whatsappHref={wa}
         telHref={tel}
         phoneLabel={settings?.telephone?.[0]}
