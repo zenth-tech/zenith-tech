@@ -17,7 +17,7 @@ export default async function SiteLayout({
     name: s?.nomEntreprise ?? "ZENITH TECH-SARL",
     url: SITE_URL,
     "@id": SITE_URL,
-    image: "",
+    image: s?.logo?.asset?.url,
     telephone: s?.telephone?.length
       ? `+${digits(s?.telephone?.[0])}`
       : undefined,
