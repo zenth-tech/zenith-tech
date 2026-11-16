@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useQuoteStore } from "@/store/quote";
 import { Input } from "./ui/input";
+import { ProductSection } from "./product-section";
 
 type Props = {
   defaultSubject?: string;
@@ -108,7 +109,7 @@ export function QuoteForm({ defaultSubject, whatsapp, companyName }: Props) {
           Vos produits
         </h2>
         {items.length === 0 ? (
-          <div className="mt-4 rounded-lg border border-dashed border-ink/25 p-6">
+          <div className="mt-4 rounded-lg border border-dashed border-ink/25 p-4">
             <p className="font-semibold">Aucun produit pour le moment.</p>
             <p className="mt-1 text-steel">
               <Link href="/produits" className="underline underline-offset-4">
@@ -119,46 +120,7 @@ export function QuoteForm({ defaultSubject, whatsapp, companyName }: Props) {
             </p>
           </div>
         ) : (
-          <ul className="mt-4 divide-y divide-ink/10 border-y border-ink/10">
-            {items.map((i) => (
-              <li
-                key={i.sku}
-                className="flex flex-wrap items-center justify-between gap-3 py-4"
-              >
-                <div className="min-w-0">
-                  <Link
-                    href={i.url}
-                    className="font-semibold underline-offset-4 hover:underline"
-                  >
-                    {i.name}
-                  </Link>
-                  <p className="text-sm text-steel">Réf. {i.sku}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <label className="sr-only" htmlFor={`qty-${i.sku}`}>
-                    Quantité pour {i.name}
-                  </label>
-                  <Input
-                    id={`qty-${i.sku}`}
-                    type="number"
-                    min={1}
-                    max={999}
-                    value={i.qty}
-                    inputMode="numeric"
-                    onChange={(e) => setQty(i.sku, Number(e.target.value))}
-                    className="min-h-10 w-20"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => remove(i.sku)}
-                    className="min-h-10 px-2 text-sm font-semibold text-steel underline underline-offset-4 hover:text-ink"
-                  >
-                    Retirer
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <ProductSection items={items} />
         )}
       </section>
 
