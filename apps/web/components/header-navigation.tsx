@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,11 +10,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { MenuQueryResult } from "@/lib/sanity/types";
 import { cn } from "@/lib/utils";
-import {useQuery} from "@tanstack/react-query"
+import { MenuQueryResult } from "@/lib/sanity/types";
 import { getMenu } from "@/lib/data";
 
 const links = [
@@ -26,35 +25,69 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/**
+ * Barre à deux moitiés qui partent du centre vers l'extérieur.
+ * - Positionnée en bas du lien (bottom-0)
+ * - Pilotée par le contexte `group/link` du lien parent
+ */
+function AnimatedBar({
+  active,
+  isTrigger = false,
+}: {
+  active: boolean;
+  isTrigger?: boolean;
+}) {
+  const half = cn(
+    "h-full w-1/2 bg-solar transition-transform duration-300 ease-out",
+    active
+      ? "scale-x-100"
+      : cn(
+          "scale-x-0 group-hover/link:scale-x-100",
+          // Garde la barre pleine quand un dropdown est ouvert
+          isTrigger && "group-data-[state=open]/link:scale-x-100",
+        ),
+  );
+
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute inset-x-3 bottom-0 flex h-0.5"
+    >
+      <span className={cn(half, "origin-right")} />
+      <span className={cn(half, "origin-left")} />
+    </span>
+  );
+}
+
 const menuLinkClass =
-  "font-display text-sm font-semibold text-ink/80 transition-colors hover:text-ink";
+  "relative font-display text-sm font-semibold transition-colors";
 
 export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
   const pathname = usePathname();
   const servicesActive = isActive(pathname, "/services");
   const catalogueActive = isActive(pathname, "/produits");
 
-  const {data: menu} = useQuery({
+  const { data: menu } = useQuery({
     queryKey: ["menu"],
-    queryFn: getMenu
-  })
+    queryFn: getMenu,
+  });
 
   return (
     <NavigationMenu
       aria-label="Navigation principale"
-      className="hidden md:flex"
+      className="hidden md:flex font-poppins"
     >
       <NavigationMenuList className="md:gap-0">
+        {/* ---------- Services ---------- */}
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn(
-              menuLinkClass,
-              servicesActive &&
-                "relative bg-mist text-ink after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full after:bg-solar",
-            )}
+            className="group/link relative"
             aria-current={servicesActive ? "page" : undefined}
           >
-            Services
+            <AnimatedBar active={servicesActive} isTrigger />
+            <span className="transition-colors duration-150 font-semibold font-poppins group-hover/link:text-solar">
+              Services
+            </span>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[30rem] grid-cols-2 gap-1">
@@ -70,7 +103,10 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
                           aria-current={active ? "page" : undefined}
                         />
                       }
-                      className={`block rounded-lg px-3 py-3 ${active ? "bg-mist" : "hover:bg-mist/70"}`}
+                      className={cn(
+                        "block rounded-lg px-3 py-3",
+                        active ? "bg-mist" : "hover:bg-mist/70",
+                      )}
                     >
                       <span className="font-display text-sm font-semibold text-ink">
                         {metier.title}
@@ -88,12 +124,16 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
+        {/* ---------- Catalogue ---------- */}
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={`${menuLinkClass} ${catalogueActive ? "relative bg-mist text-ink after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full after:bg-solar" : ""}`}
+            className="group/link relative"
             aria-current={catalogueActive ? "page" : undefined}
           >
-            Catalogue
+            <AnimatedBar active={catalogueActive} isTrigger />
+            <span className="transition-colors duration-150 font-semibold font-poppins group-hover/link:text-solar">
+              Catalogue
+            </span>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[30rem] grid-cols-2 gap-1">
@@ -111,7 +151,10 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
                             aria-current={active ? "page" : undefined}
                           />
                         }
-                        className={`block rounded-lg px-3 py-3 ${active ? "bg-mist" : "hover:bg-mist/70"}`}
+                        className={cn(
+                          "block rounded-lg px-3 py-3",
+                          active ? "bg-mist" : "hover:bg-mist/70",
+                        )}
                       >
                         <span className="font-display text-sm font-semibold text-ink">
                           {metier.title}
@@ -129,12 +172,13 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
+        {/* ---------- Liens simples ---------- */}
         {links.map(({ label, href }) => {
           const active = isActive(pathname, href);
           return (
-            <NavigationMenuItem key={href}>
+            <NavigationMenuItem key={href} className="font-poppins md:px-2">
               <NavigationMenuLink
-                className={`${navigationMenuTriggerStyle()} ${menuLinkClass} ${active ? "relative bg-mist text-ink after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full after:bg-solar" : ""}`}
+                className={cn("group/link", menuLinkClass)}
                 render={
                   <Link
                     href={href}
@@ -142,7 +186,15 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
                   />
                 }
               >
-                {label}
+                <AnimatedBar active={active} />
+                <span
+                  className={cn(
+                    "transition-colors font-poppins font-semibold group-hover/link:text-solar",
+                    active ? "text-ink" : "text-ink/80",
+                  )}
+                >
+                  {label}
+                </span>
               </NavigationMenuLink>
             </NavigationMenuItem>
           );

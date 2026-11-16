@@ -68,12 +68,12 @@ export function ProductCard({
       </div>
 
       {/* Contenu de la carte */}
-      <div className="flex flex-1 flex-col p-2">
+      <div className="flex min-h-0 flex-1 flex-col p-2">
         {/* Informations du produit */}
-        <div className="flex-1">
-          {p.marque && <p className="text-xs text-steel">{p.marque}</p>}
+        <div className="min-h-0 flex-1 overflow-hidden">
+          {p.marque && <p className="truncate text-xs text-steel">{p.marque}</p>}
 
-          <h3 className="text-base line-clamp-1 font-bold leading-tight">
+          <h3 className="line-clamp-1 text-base font-bold leading-tight">
             <Link
               href={productHref(p)}
               className="after:absolute after:inset-0"
@@ -83,7 +83,7 @@ export function ProductCard({
           </h3>
 
           {p.accroche && (
-            <p className="mt-0.5 font-poppins line-clamp-2 text-xs leading-relaxed text-steel">
+            <p className="mt-0.5 line-clamp-2 font-poppins text-xs leading-relaxed text-steel">
               {p.accroche}
             </p>
           )}
@@ -92,8 +92,8 @@ export function ProductCard({
             <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0 text-xs">
               {specs.map((c) => (
                 <div key={c.cle} className="contents">
-                  <dt className="text-steel">{c.cle}</dt>
-                  <dd className="font-semibold">{c.valeur}</dd>
+                  <dt className="truncate text-steel">{c.cle}</dt>
+                  <dd className="truncate font-semibold">{c.valeur}</dd>
                 </div>
               ))}
             </dl>
@@ -101,7 +101,7 @@ export function ProductCard({
         </div>
 
         {/* Bouton d'ajout au devis */}
-        <div className="relative z-10 pt-2">
+        <div className="relative z-10 mt-auto shrink-0 pt-2">
           <AddToQuoteButton
             sku={p.sku!}
             name={p.name!}

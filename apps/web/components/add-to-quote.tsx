@@ -36,9 +36,9 @@ export function AddToQuoteButton({
         addQuote({ sku, name, url });
         setDone(true);
       }}
-      className={`inline-flex cursor-pointer min-h-10 rounded-md font-semibold text-white transition-colors hover:bg-steel ${size === "sm" ? "text-sm" : "text-[0.95rem]"} ${className}`}
+      className={`inline-flex  cursor-pointer min-h-10 rounded-md font-semibold text-white transition-colors hover:bg-steel ${size === "sm" ? "text-sm" : "text-[0.95rem]"} ${className}`}
     >
-      <span aria-live="polite">
+      <span className="lowercase">
         {done ? "Ajouté à votre demande" : "Ajouter au devis"}
       </span>
     </Button>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useQuoteStore } from "@/store/quote";
+import { Input } from "./ui/input";
 
 type Props = {
   defaultSubject?: string;
@@ -106,7 +107,7 @@ export function QuoteForm({ defaultSubject, whatsapp, companyName }: Props) {
         <h2 id="produits-devis" className="text-2xl font-bold">
           Vos produits
         </h2>
-        {!ready ? null : items.length === 0 ? (
+        {items.length === 0 ? (
           <div className="mt-4 rounded-lg border border-dashed border-ink/25 p-6">
             <p className="font-semibold">Aucun produit pour le moment.</p>
             <p className="mt-1 text-steel">
@@ -137,7 +138,7 @@ export function QuoteForm({ defaultSubject, whatsapp, companyName }: Props) {
                   <label className="sr-only" htmlFor={`qty-${i.sku}`}>
                     Quantité pour {i.name}
                   </label>
-                  <input
+                  <Input
                     id={`qty-${i.sku}`}
                     type="number"
                     min={1}
@@ -145,7 +146,7 @@ export function QuoteForm({ defaultSubject, whatsapp, companyName }: Props) {
                     value={i.qty}
                     inputMode="numeric"
                     onChange={(e) => setQty(i.sku, Number(e.target.value))}
-                    className="min-h-10 w-20 "
+                    className="min-h-10 w-20"
                   />
                   <button
                     type="button"

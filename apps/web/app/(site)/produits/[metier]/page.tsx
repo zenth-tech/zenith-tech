@@ -32,7 +32,7 @@ export default async function MetierCataloguePage({ params }: Props) {
       />
       <Container className="py-12">
         <CategoryCatalog metierSlug={m.slug!} categories={m.categories} />
-        <p className="mt-8 text-steel">
+        <p className="mt-8 text-steel font-poppins">
           Présentation du service :{" "}
           <Link
             href={`/services/${m.slug}`}
