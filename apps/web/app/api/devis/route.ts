@@ -1,5 +1,7 @@
+import * as React from 'react'
 import {Resend} from 'resend'
 import {NextResponse} from 'next/server'
+import {QuoteRequestEmail} from '@/components/emails/quote-request-email'
 
 // Limitation simple en mémoire (par instance). À remplacer par Upstash/Redis ou Cloudflare Turnstile en production.
 const hits = new Map<string, number[]>()
@@ -32,7 +34,7 @@ export async function POST(req: Request) {
     telephone: str(body.telephone, 40),
     email: str(body.email, 160),
     ville: str(body.ville, 80),
-    typeClient: body.typeClient === 'entreprise' ? 'entreprise' : 'particulier',
+    typeClient: (body.typeClient === 'entreprise' ? 'entreprise' : 'particulier') as 'entreprise' | 'particulier',
     canal,
     message: str(body.message, 3000),
     items: (Array.isArray(body.items) ? body.items : []).slice(0, 50).map((i) => {
@@ -88,32 +90,13 @@ export async function POST(req: Request) {
 
   if (resendApiKey && quoteToEmail && quoteFromEmail) {
     const resend = new Resend(resendApiKey)
-    const text = [
-      `Nouvelle demande de devis de ${quote.nom}`,
-      '',
-      `Téléphone : ${quote.telephone || 'Non renseigné'}`,
-      `Email : ${quote.email || 'Non renseigné'}`,
-      `Ville : ${quote.ville || 'Non renseignée'}`,
-      `Type de client : ${quote.typeClient}`,
-      `Canal préféré : ${quote.canal}`,
-      '',
-      'Produits :',
-      quote.items.length
-        ? quote.items.map((item) => `- ${item.qty} x ${item.name} (Réf. ${item.sku})`).join('\n')
-        : 'Aucun produit sélectionné',
-      '',
-      'Projet :',
-      quote.message || 'Non renseigné',
-      '',
-      `Reçu le : ${quote.receivedAt}`,
-    ].join('\n')
 
     try {
       const {error} = await resend.emails.send({
         from: quoteFromEmail,
         to: quoteToEmail,
         subject: `Demande de devis — ${quote.nom}`,
-        text,
+        react: React.createElement(QuoteRequestEmail, {quote}),
         ...(quote.email && /^\S+@\S+\.\S+$/.test(quote.email) ? {replyTo: quote.email} : {}),
       })
 

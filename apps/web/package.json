@@ -12,6 +12,7 @@
     "@base-ui/react": "^1.9.0",
     "@gsap/react": "^2.1.2",
     "@portabletext/react": "^8.0.1",
+    "@react-email/components": "^1.0.12",
     "@sanity/client": "^8.11.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^6.21.0",
