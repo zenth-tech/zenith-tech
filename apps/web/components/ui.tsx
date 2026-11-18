@@ -144,7 +144,7 @@ export function Section({
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               {title && (
-                <h2 className="max-w-2xl text-3xl font-bold leading-tight sm:text-4xl">
+                <h2 className="max-w-2xl text-3xl text-zenith font-bold leading-tight sm:text-4xl">
                   {title}
                 </h2>
               )}

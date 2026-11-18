@@ -20,7 +20,9 @@ export function RealisationCard({ item: r }: { item: R }) {
         </Link>
       </h3>
       {r.resume && (
-        <p className="mt-1 text-sm leading-relaxed text-steel">{r.resume}</p>
+        <p className="mt-1 font-poppins text-sm leading-relaxed text-steel">
+          {r.resume}
+        </p>
       )}
       {r.ville && <p className="mt-1 text-sm font-semibold">{r.ville}</p>}
     </article>

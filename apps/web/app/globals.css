@@ -6,6 +6,7 @@
 
 @theme {
   --font-poppins: var(--font-poppins);
+  --color-zenith: #15cdff;
 }
 
 @theme inline {

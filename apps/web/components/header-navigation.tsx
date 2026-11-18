@@ -89,8 +89,8 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
               Services
             </span>
           </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[30rem] grid-cols-2 gap-1">
+          <NavigationMenuContent className="shadow-2xl">
+            <ul className="grid w-[50rem] grid-cols-3 gap-1">
               {menu?.map((metier) => {
                 const href = `/services/${metier.slug}`;
                 const active = isActive(pathname, href);
@@ -112,7 +112,7 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
                         {metier.title}
                       </span>
                       {metier.accroche && (
-                        <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-steel">
+                        <span className="mt-1 font-poppins line-clamp-2 block text-xs leading-relaxed text-steel">
                           {metier.accroche}
                         </span>
                       )}
@@ -136,7 +136,7 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
             </span>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[30rem] grid-cols-2 gap-1">
+            <ul className="grid w-[50rem] grid-cols-3 gap-1">
               {menu
                 ?.filter((metier) => metier.aCatalogue)
                 .map((metier) => {
@@ -160,7 +160,7 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
                           {metier.title}
                         </span>
                         {metier.accroche && (
-                          <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-steel">
+                          <span className="mt-1 font-poppins line-clamp-2 block text-xs leading-relaxed text-steel">
                             {metier.accroche}
                           </span>
                         )}

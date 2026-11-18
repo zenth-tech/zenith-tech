@@ -12,6 +12,20 @@ import { getMetiers } from "@/lib/data";
 
 gsap.registerPlugin(useGSAP);
 
+const numLett: string[] = [
+  "Zéro",
+  "Un",
+  "Deux",
+  "Trois",
+  "Quatre",
+  "Cinq",
+  "Six",
+  "Sept",
+  "Huit",
+  "Neuf",
+  "Dix",
+];
+
 export function ActivityPoles() {
   const root = useRef<HTMLElement>(null);
   const { data: metiers } = useQuery({
@@ -69,13 +83,13 @@ export function ActivityPoles() {
       <Container>
         <div className="mb-8 max-w-2xl sm:mb-10">
           <p className="text-sm font-bold uppercase tracking-[0.16em] text-solar-deep">
-            Nos pôles d’activité
+            Nos pôles d&apos;activité
           </p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-            Six domaines, un seul interlocuteur
+          <h2 className="mt-3 text-zenith text-3xl font-bold leading-tight sm:text-4xl">
+            {numLett[metiers?.length || 0]} domaines, un seul interlocuteur
           </h2>
           <p className="mt-3 font-poppins text-steel">
-            Du projet à la maintenance, une même équipe s’occupe de vos
+            Du projet à la maintenance, une même équipe s&apos;occupe de vos
             installations.
           </p>
         </div>
