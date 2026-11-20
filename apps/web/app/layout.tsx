@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      default: `${name} : Sécurité Électronique, Réseaux & Énergie Solaire à Bamako`,
+      default: `${name} : Ingénierie technologique & sécurisation des infrastructures à Bamako`,
       template: `%s | ${name}`,
     },
     description:
