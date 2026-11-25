@@ -9,19 +9,19 @@ export function AddToQuoteButton({
   sku,
   name,
   url,
+  image,
   size = "md",
   className = "",
 }: {
   sku: string;
   name: string;
   url: string;
+  image?: string;
   size?: "sm" | "md";
   className?: string;
 }) {
-  const { add: addQuote, ready, items } = useQuoteStore();
+  const addQuote = useQuoteStore((s) => s.add);
   const [done, setDone] = useState(false);
-
-  console.log("Items in quote store:", items);
 
   useEffect(() => {
     if (!done) return;
@@ -33,10 +33,10 @@ export function AddToQuoteButton({
     <Button
       type="button"
       onClick={() => {
-        addQuote({ sku, name, url });
+        addQuote({ sku, name, url, image });
         setDone(true);
       }}
-      className={`inline-flex  cursor-pointer min-h-10 rounded-md font-semibold text-white transition-colors hover:bg-steel ${size === "sm" ? "text-sm" : "text-[0.95rem]"} ${className}`}
+      className={`inline-flex cursor-pointer min-h-10 rounded-md font-semibold text-white transition-colors hover:bg-steel ${size === "sm" ? "text-sm" : "text-[0.95rem]"} ${className}`}
     >
       <span className="lowercase">
         {done ? "Ajouté à votre demande" : "Ajouter au devis"}

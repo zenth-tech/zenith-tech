@@ -9,6 +9,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { productHref } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityImageSource } from "@sanity/image-url";
 
 export function ProductCard({
   product: p,
@@ -22,6 +24,14 @@ export function ProductCard({
   const specs = (p.caracteristiques ?? [])
     .filter((c) => c.cle && c.valeur)
     .slice(0, 3);
+  const imageUrl = p.image?.asset?.url
+    ? urlFor(p.image as unknown as SanityImageSource)
+        .width(160)
+        .height(160)
+        .fit("max")
+        .auto("format")
+        .url()
+    : undefined;
 
   const { contextSafe } = useGSAP({ scope: root });
 
@@ -106,6 +116,7 @@ export function ProductCard({
             sku={p.sku!}
             name={p.name!}
             url={productHref(p)}
+            image={imageUrl}
             size="sm"
             className="w-full rounded-2xl"
           />

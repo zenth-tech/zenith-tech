@@ -2,7 +2,7 @@
 
 import {createContext, useCallback, useContext, useEffect, useMemo, useState} from 'react'
 
-export type QuoteItem = {sku: string; name: string; url: string; qty: number}
+export type QuoteItem = {sku: string; name: string; url: string; image?: string; qty: number}
 
 type Ctx = {
   items: QuoteItem[]

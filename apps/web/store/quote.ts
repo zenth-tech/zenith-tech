@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface QuoteItem {
+export interface QuoteItem {
   sku: string;
   name: string;
   url: string;
+  image?: string;
   qty: number;
 }
 

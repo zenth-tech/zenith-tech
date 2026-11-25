@@ -10,6 +10,8 @@ import { VideoEmbed } from "@/components/video-embed";
 import { AddToQuoteButton } from "@/components/add-to-quote";
 import { RealisationCard } from "@/components/realisation-card";
 import { ProductCard } from "@/components/product-card";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityImageSource } from "@sanity/image-url";
 
 type Props = {
   params: Promise<{ metier: string; categorie: string; produit: string }>;
@@ -28,8 +30,14 @@ export default async function ProductPage({ params }: Props) {
     getSettings(),
   ]);
   if (!p) notFound();
-
-  console.log("Produits", produit);
+  const imageUrl = p.image?.asset?.url
+    ? urlFor(p.image as unknown as SanityImageSource)
+        .width(160)
+        .height(160)
+        .fit("max")
+        .auto("format")
+        .url()
+    : undefined;
 
   const images = (p.images ?? []).filter((i) => i?.asset);
   const specs = (p.caracteristiques ?? []).filter((c) => c.cle && c.valeur);
@@ -104,6 +112,7 @@ export default async function ProductPage({ params }: Props) {
               sku={p.sku!}
               name={p.name!}
               url={productHref(p)}
+              image={imageUrl}
               className="px-6"
             />
             {wa && (
