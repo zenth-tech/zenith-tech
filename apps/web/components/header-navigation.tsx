@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { MenuQueryResult } from "@/lib/sanity/types";
 import { getMenu } from "@/lib/data";
+import { CatalogueMenuContent, ServicesMenuContent } from "./header-menu";
 
 const links = [
   { label: "Réalisations", href: "/realisations" },
@@ -90,37 +91,7 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
             </span>
           </NavigationMenuTrigger>
           <NavigationMenuContent className="shadow-2xl">
-            <ul className="grid w-[50rem] grid-cols-3 gap-1">
-              {menu?.map((metier) => {
-                const href = `/services/${metier.slug}`;
-                const active = isActive(pathname, href);
-                return (
-                  <li key={metier.slug}>
-                    <NavigationMenuLink
-                      render={
-                        <Link
-                          href={href}
-                          aria-current={active ? "page" : undefined}
-                        />
-                      }
-                      className={cn(
-                        "block rounded-lg px-3 py-3",
-                        active ? "bg-mist" : "hover:bg-mist/70",
-                      )}
-                    >
-                      <span className="font-display text-sm font-semibold text-ink">
-                        {metier.title}
-                      </span>
-                      {metier.accroche && (
-                        <span className="mt-1 font-poppins line-clamp-2 block text-xs leading-relaxed text-steel">
-                          {metier.accroche}
-                        </span>
-                      )}
-                    </NavigationMenuLink>
-                  </li>
-                );
-              })}
-            </ul>
+            <ServicesMenuContent menu={menu} pathname={pathname} />
           </NavigationMenuContent>
         </NavigationMenuItem>
 
@@ -136,39 +107,7 @@ export function HeaderNavigation({ Pmenu }: { Pmenu?: MenuQueryResult }) {
             </span>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[50rem] grid-cols-3 gap-1">
-              {menu
-                ?.filter((metier) => metier.aCatalogue)
-                .map((metier) => {
-                  const href = `/produits/${metier.slug}`;
-                  const active = isActive(pathname, href);
-                  return (
-                    <li key={metier.slug}>
-                      <NavigationMenuLink
-                        render={
-                          <Link
-                            href={href}
-                            aria-current={active ? "page" : undefined}
-                          />
-                        }
-                        className={cn(
-                          "block rounded-lg px-3 py-3",
-                          active ? "bg-mist" : "hover:bg-mist/70",
-                        )}
-                      >
-                        <span className="font-display text-sm font-semibold text-ink">
-                          {metier.title}
-                        </span>
-                        {metier.accroche && (
-                          <span className="mt-1 font-poppins line-clamp-2 block text-xs leading-relaxed text-steel">
-                            {metier.accroche}
-                          </span>
-                        )}
-                      </NavigationMenuLink>
-                    </li>
-                  );
-                })}
-            </ul>
+            <CatalogueMenuContent menu={menu} pathname={pathname} />
           </NavigationMenuContent>
         </NavigationMenuItem>
 

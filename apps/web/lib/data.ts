@@ -36,13 +36,11 @@ export const getHereVideo = cache(async (): Promise<string | null> => {
 });
 
 export const getMenu = cache(async (): Promise<MenuQueryResult> => {
-  if (!hasSanity) return M.mockMenu as MenuQueryResult;
   return (await q<MenuQueryResult>(Q.menuQuery)) ?? [];
 });
 
 // ---------- Pôles ----------
 export const getMetiers = cache(async (): Promise<MetiersQueryResult> => {
-  if (!hasSanity) return M.mockMetiers as MetiersQueryResult;
   return (await q<MetiersQueryResult>(Q.metiersQuery)) ?? [];
 });
 

@@ -32,19 +32,28 @@ export const heroVideoQuery = defineQuery(`
   }
 `);
 
-// Méga-menu : métiers → catégories
+/**
+ * Menu : pôles (sans parent), avec leurs sous-pôles et leurs catégories.
+ * Sert au menu « Services », au menu « Catalogue » et à la section « domaines » de l'accueil.
+ * Après modification, régénère les types : `sanity typegen generate`.
+ */
 export const menuQuery = defineQuery(`
-  *[_type == "metier"] | order(ordre asc) {
+  *[_type == "metier" && !defined(parent)] | order(ordre asc) {
     title, "slug": slug.current, accroche, aCatalogue,
     "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {
       title, "slug": slug.current
+    },
+    "sousPoles": *[_type == "metier" && parent._ref == ^._id] | order(ordre asc) {
+      title, "slug": slug.current, accroche, aCatalogue,
+      "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {
+        title, "slug": slug.current
+      }
     }
   }
 `);
-
 // ---------- Catalogue ----------
 export const metiersQuery = defineQuery(`
-  *[_type == "metier"] | order(ordre asc) {
+  *[_type == "metier" && !defined(parent)] | order(ordre asc) {
     _id, title, "slug": slug.current, accroche, description, aCatalogue, image${IMAGE},
     "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {
       title, "slug": slug.current, image${IMAGE}

@@ -556,8 +556,15 @@ export type SiteSettingsQueryResult = {
 } | null;
 
 // Source: lib/queries.ts
+// Variable: heroVideoQuery
+// Query: *[_type == "siteSettings"][0]{   "videoUrl": heroVideo.asset->url  }
+export type HeroVideoQueryResult = {
+  videoUrl: null;
+} | null;
+
+// Source: lib/queries.ts
 // Variable: menuQuery
-// Query: *[_type == "metier"] | order(ordre asc) {    title, "slug": slug.current, accroche, aCatalogue,    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {      title, "slug": slug.current    }  }
+// Query: *[_type == "metier" && !defined(parent)] | order(ordre asc) {    title, "slug": slug.current, accroche, aCatalogue,    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {      title, "slug": slug.current    },    "sousPoles": *[_type == "metier" && parent._ref == ^._id] | order(ordre asc) {      title, "slug": slug.current, accroche, aCatalogue,      "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {        title, "slug": slug.current      }    }  }
 export type MenuQueryResult = Array<{
   title: string | null;
   slug: string | null;
@@ -567,6 +574,7 @@ export type MenuQueryResult = Array<{
     title: string | null;
     slug: string | null;
   }>;
+  sousPoles: Array<Metier>;
 }>;
 
 // Source: lib/queries.ts
@@ -1179,7 +1187,7 @@ export type MetiersCatalogueQueryResult = Array<{
 // Variable: productSlugsQuery
 // Query: *[_type == "product"    && defined(slug.current)    && defined(categorie->slug.current)    && defined(categorie->metier->slug.current)  ]{    "produit": slug.current,    "categorie": categorie->slug.current,    "metier": categorie->metier->slug.current,    _updatedAt  }
 export type ProductSlugsQueryResult = Array<{
-  produit: string | null;
+  produit: string;
   categorie: string | null;
   metier: string | null;
   _updatedAt: string;
@@ -1189,7 +1197,7 @@ export type ProductSlugsQueryResult = Array<{
 // Variable: categorieSlugsQuery
 // Query: *[_type == "categorie" && defined(slug.current) && defined(metier->slug.current)]{    "categorie": slug.current, "metier": metier->slug.current, _updatedAt  }
 export type CategorieSlugsQueryResult = Array<{
-  categorie: string | null;
+  categorie: string;
   metier: string | null;
   _updatedAt: string;
 }>;
@@ -1198,7 +1206,7 @@ export type CategorieSlugsQueryResult = Array<{
 // Variable: metierSlugsQuery
 // Query: *[_type == "metier" && defined(slug.current)]{    "metier": slug.current, aCatalogue, _updatedAt  }
 export type MetierSlugsQueryResult = Array<{
-  metier: string | null;
+  metier: string;
   aCatalogue: boolean | null;
   _updatedAt: string;
 }>;
@@ -1207,15 +1215,42 @@ export type MetierSlugsQueryResult = Array<{
 // Variable: realisationSlugsQuery
 // Query: *[_type == "realisation" && defined(slug.current)]{ "slug": slug.current, _updatedAt }
 export type RealisationSlugsQueryResult = Array<{
-  slug: string | null;
+  slug: string;
   _updatedAt: string;
+}>;
+
+// Source: lib/queries/catalogue-query.ts
+// Variable: polesQuery
+// Query: *[_type == "metier" && !defined(parent)] | order(ordre asc) {    _id, title, "slug": slug.current, accroche, aCatalogue  }
+export type PolesQueryResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  accroche: string | null;
+  aCatalogue: boolean | null;
+}>;
+
+// Source: lib/queries/catalogue-query.ts
+// Variable: catalogueQuery
+// Query: *[_type == "metier" && !defined(parent) && (    aCatalogue == true ||    count(*[_type == "metier" && parent._ref == ^._id && aCatalogue == true]) > 0  )] | order(ordre asc) {    title, "slug": slug.current, accroche,    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {      title, "slug": slug.current,      "nbProduits": count(*[_type == "product" && categorie._ref == ^._id])    },    "sousPoles": *[_type == "metier" && parent._ref == ^._id && aCatalogue == true] | order(ordre asc) {      title, "slug": slug.current, accroche,      "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {        title, "slug": slug.current,        "nbProduits": count(*[_type == "product" && categorie._ref == ^._id])      }    }  }
+export type CatalogueQueryResult = Array<{
+  title: string | null;
+  slug: string | null;
+  accroche: string | null;
+  categories: Array<{
+    title: string | null;
+    slug: string | null;
+    nbProduits: number;
+  }>;
+  sousPoles: Array<never>;
 }>;
 
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "siteSettings"][0]{\n    nomEntreprise, heroVideo, slogan, presentation, logo{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    aProposTitre, aProposTexte, aProposImage{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, valeurs, chiffresCles,\n    telephone, whatsapp, email, adresse, ville, horaires, zoneCouverture, rccm, nina,\n    facebook, instagram, linkedin, youtube, tiktok, seo\n  }\n': SiteSettingsQueryResult;
-    '\n  *[_type == "metier"] | order(ordre asc) {\n    title, "slug": slug.current, accroche, aCatalogue,\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current\n    }\n  }\n': MenuQueryResult;
+    '\n  *[_type == "siteSettings"][0]{ \n  "videoUrl": heroVideo.asset->url\n  }\n': HeroVideoQueryResult;
+    '\n  *[_type == "metier" && !defined(parent)] | order(ordre asc) {\n    title, "slug": slug.current, accroche, aCatalogue,\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current\n    },\n    "sousPoles": *[_type == "metier" && parent._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current, accroche, aCatalogue,\n      "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n        title, "slug": slug.current\n      }\n    }\n  }\n': MenuQueryResult;
     '\n  *[_type == "metier"] | order(ordre asc) {\n    _id, title, "slug": slug.current, accroche, description, aCatalogue, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n    }\n  }\n': MetiersQueryResult;
     '\n  *[_type == "metier" && slug.current == $metier][0]{\n    title, "slug": slug.current, accroche, description, aCatalogue, prestations, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, seo,\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current, description, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n    }\n  }\n': MetierQueryResult;
     '\n  *[_type == "categorie" && slug.current == $categorie && metier->slug.current == $metier][0]{\n    title, "slug": slug.current, description, image{ alt, hotspot, crop, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }, filtres, seo,\n    "metier": metier->{ title, "slug": slug.current }\n  }\n': CategorieQueryResult;
@@ -1231,6 +1266,8 @@ declare global {
     '\n  *[_type == "categorie" && defined(slug.current) && defined(metier->slug.current)]{\n    "categorie": slug.current, "metier": metier->slug.current, _updatedAt\n  }\n': CategorieSlugsQueryResult;
     '\n  *[_type == "metier" && defined(slug.current)]{\n    "metier": slug.current, aCatalogue, _updatedAt\n  }\n': MetierSlugsQueryResult;
     '\n  *[_type == "realisation" && defined(slug.current)]{ "slug": slug.current, _updatedAt }\n': RealisationSlugsQueryResult;
+    '\n  *[_type == "metier" && !defined(parent)] | order(ordre asc) {\n    _id, title, "slug": slug.current, accroche, aCatalogue\n  }\n': PolesQueryResult;
+    '\n  *[_type == "metier" && !defined(parent) && (\n    aCatalogue == true ||\n    count(*[_type == "metier" && parent._ref == ^._id && aCatalogue == true]) > 0\n  )] | order(ordre asc) {\n    title, "slug": slug.current, accroche,\n    "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n      title, "slug": slug.current,\n      "nbProduits": count(*[_type == "product" && categorie._ref == ^._id])\n    },\n    "sousPoles": *[_type == "metier" && parent._ref == ^._id && aCatalogue == true] | order(ordre asc) {\n      title, "slug": slug.current, accroche,\n      "categories": *[_type == "categorie" && metier._ref == ^._id] | order(ordre asc) {\n        title, "slug": slug.current,\n        "nbProduits": count(*[_type == "product" && categorie._ref == ^._id])\n      }\n    }\n  }\n': CatalogueQueryResult;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
